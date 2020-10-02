@@ -3,21 +3,21 @@ package com.example.s328084s333761mappe2;
 public class MøteDeltakelse {
     public Long _ID;
     public Long Møte_ID;
-    public Long[] Deltaker_IDListe;
+    public Long Deltaker_ID;
 
     public MøteDeltakelse(Long Møte_ID) {
         this.Møte_ID = Møte_ID;
     }
 
-    public MøteDeltakelse(Long Møte_ID, Long[] Liste) {
+    public MøteDeltakelse(Long Møte_ID, Long Deltaker_ID) {
         this.Møte_ID = Møte_ID;
-        this.Deltaker_IDListe = Liste;
+        this.Deltaker_ID = Deltaker_ID;
     }
 
-    public MøteDeltakelse(Long _ID, Long Møte_ID, Long[] Liste) {
+    public MøteDeltakelse(Long _ID, Long Møte_ID, Long Deltaker_ID) {
         this._ID = _ID;
         this.Møte_ID = Møte_ID;
-        this.Deltaker_IDListe = Liste;
+        this.Deltaker_ID = Deltaker_ID;
     }
 
     public MøteDeltakelse(){}
@@ -38,11 +38,11 @@ public class MøteDeltakelse {
         Møte_ID = møte_ID;
     }
 
-    public Long[] getDeltaker_IDListe() {
-        return Deltaker_IDListe;
+    public Long getDeltaker_ID() {
+        return Deltaker_ID;
     }
 
-    public void setDeltaker_IDListe(Long[] deltaker_IDListe) {
-        Deltaker_IDListe = deltaker_IDListe;
+    public void setDeltaker_ID(Long deltaker_ID) {
+        Deltaker_ID = deltaker_ID;
     }
 }

@@ -23,7 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
     static String KEY_TID = "Tidspunkt";
     static String KEY_ID_MØTEDELTAKELSE = "_ID";
     static String KEY_MØTE_ID = "_ID";
-    static String KEY_DELTAKERLISTE = "Deltakerliste";
+    static String KEY_DELTAKER_ID = "Deltaker_ID";
     static int DATABASE_VERSION = 1;
     static String DATABASE_NAME = "MøteDatabase";
     public DBHandler(Context context) {
@@ -42,16 +42,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 " TEXT," + KEY_TID + " TEXT" + ")";
         Log.d("SQL", LAG_TABELL_MØTER);
         db.execSQL(LAG_TABELL_MØTER);
-        //Må finne ut hvordan vi implementerer liste i databasen
-        /*String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MØTEDELTAKELSE + "(" + KEY_ID_MØTEDELTAKELSE +
-                " INTEGER PRIMARY KEY," + KEY_MØTE_ID + " INTEGER, " +
-                + "FOREIGN KEY("+CONTACT_ID+") REFERENCES "+DatabaseManagerContact.TABLE_NAME+"("+CONTACT_ID+"), "
-                + FOREIGN KEY("+OTHER_ID+") REFERENCES "+DatabaseManagerContact.ANOTHER_TABLE_NAME+"("+ANOTHER_ID+"));";
+        String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MØTEDELTAKELSE + "(" + KEY_ID_MØTEDELTAKELSE +
+                " INTEGER PRIMARY KEY," + KEY_MØTE_ID + " FOREIGN KEY REFERENCES "+TABLE_MØTER+"("+KEY_MØTE_ID+"), "
+                + KEY_ID_KONTAKT +" FOREIGN KEY REFERENCES "+TABLE_KONTAKTER+"("+KEY_ID_KONTAKT+"));";
 
         Log.d("SQL", LAG_TABELL_MØTER);
         db.execSQL(LAG_TABELL_MØTER);
-
-         */
     }
 
     @Override
