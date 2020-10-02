@@ -33,8 +33,6 @@ public class KontaktActivity extends AppCompatActivity {
     TextView utskrift;
     DBHandler db;
 
-
-
     public void leggtil(View v) {
         Kontakt kontakt = new Kontakt(navninn.getText().toString(),telefoninn.getText().toString());
         db.leggTilKontakt(kontakt);
