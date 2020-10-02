@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navninn = (EditText) findViewById(R.id.navn);
-        telefoninn = (EditText) findViewById(R.id.telefon);
-        idinn = (EditText) findViewById(R.id.min_id);
-        utskrift = (TextView) findViewById(R.id.utskrift);
         db = new DBHandler(this);
         db.getWritableDatabase();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

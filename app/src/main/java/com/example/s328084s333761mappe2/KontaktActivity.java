@@ -25,6 +25,14 @@ public class KontaktActivity extends AppCompatActivity {
 
         myToolbar.inflateMenu(R.menu.kontaktmeny);
         setActionBar(myToolbar);
+
+        navninn = (EditText) findViewById(R.id.navninn);
+        telefoninn = (EditText) findViewById(R.id.telefoninn);
+        idinn = (EditText) findViewById(R.id.min_id);
+        utskrift = (TextView) findViewById(R.id.utskrift);
+
+        db = new DBHandler(this);
+        db.getWritableDatabase();
     }
 
     EditText navninn;
