@@ -43,8 +43,9 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("SQL", LAG_TABELL_MØTER);
         db.execSQL(LAG_TABELL_MØTER);
         String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MØTE_DELTAKELSE + "(" + KEY_ID_MØTEDELTAKELSE +
-                " INTEGER PRIMARY KEY, " + KEY_ID_MØTE_ID + "INTEGER, FOREIGN KEY (" + KEY_ID_MØTE_ID + ") REFERENCES "+TABLE_MØTER+"("+KEY_ID_MØTE+"), "
-                + KEY_ID_DELTAKER +" FOREIGN KEY (" + KEY_ID_DELTAKER + ") REFERENCES "+TABLE_KONTAKTER+"("+KEY_ID_KONTAKT+"));";
+                " INTEGER PRIMARY KEY, " + KEY_ID_MØTE_ID + "INTEGER, " + KEY_ID_DELTAKER +
+                " INTEGER, FOREIGN KEY (" + KEY_ID_MØTE_ID + ") REFERENCES " + TABLE_MØTER+"("+KEY_ID_MØTE+")," +
+                " FOREIGN KEY (" + KEY_ID_DELTAKER + ") REFERENCES "+TABLE_KONTAKTER+"("+KEY_ID_KONTAKT+"));";
 
         Log.d("SQL", LAG_TABELL_MØTEDELTAKELSE);
         db.execSQL(LAG_TABELL_MØTEDELTAKELSE);
