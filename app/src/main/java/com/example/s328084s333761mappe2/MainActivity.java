@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -88,5 +90,7 @@ public class MainActivity extends AppCompatActivity {
         idinn = (EditText) findViewById(R.id.min_id);
         utskrift = (TextView) findViewById(R.id.utskrift);
         db = new DBHandler(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //bruk shared pref til å velge mellom leggtil og endre kontakt
     }
 }

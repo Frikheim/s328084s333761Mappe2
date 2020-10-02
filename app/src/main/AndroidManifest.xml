@@ -22,6 +22,10 @@
         <activity android:name=".VisScriptActivity" android:parentActivityName=".VisScriptActivity">
 
         </activity>
+        <activity android:name=".KontaktActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".MøteActivity" android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

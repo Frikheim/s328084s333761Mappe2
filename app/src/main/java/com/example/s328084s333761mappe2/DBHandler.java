@@ -12,22 +12,46 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
     static String TABLE_KONTAKTER = "Kontakter";
-    static String KEY_ID = "_ID";
+    static String TABLE_MØTER = "Møter";
+    static String TABLE_MØTEDELTAKELSE = "MøteDeltakelse";
+    static String KEY_ID_KONTAKT = "_ID";
     static String KEY_NAME = "Navn";
     static String KEY_PH_NO = "Telefon";
+    static String KEY_ID_MØTE = "_ID";
+    static String KEY_TYPE = "Type";
+    static String KEY_STED = "Sted";
+    static String KEY_TID = "Tidspunkt";
+    static String KEY_ID_MØTEDELTAKELSE = "_ID";
+    static String KEY_MØTE_ID = "_ID";
+    static String KEY_DELTAKERLISTE = "Deltakerliste";
     static int DATABASE_VERSION = 1;
-    static String DATABASE_NAME = "Telefonkontakter";
+    static String DATABASE_NAME = "MøteDatabase";
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String LAG_TABELL = "CREATE TABLE " + TABLE_KONTAKTER + "(" + KEY_ID +
+        String LAG_TABELL_KONTAKTER = "CREATE TABLE " + TABLE_KONTAKTER + "(" + KEY_ID_KONTAKT +
                 " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PH_NO +
                 " TEXT" + ")";
-        Log.d("SQL", LAG_TABELL);
-        db.execSQL(LAG_TABELL);
+        Log.d("SQL", LAG_TABELL_KONTAKTER);
+        db.execSQL(LAG_TABELL_KONTAKTER);
+        String LAG_TABELL_MØTER = "CREATE TABLE " + TABLE_MØTER + "(" + KEY_ID_MØTE +
+                " INTEGER PRIMARY KEY," + KEY_TYPE + " TEXT," + KEY_STED +
+                " TEXT," + KEY_TID + " TEXT" + ")";
+        Log.d("SQL", LAG_TABELL_MØTER);
+        db.execSQL(LAG_TABELL_MØTER);
+        //Må finne ut hvordan vi implementerer liste i databasen
+        /*String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MØTEDELTAKELSE + "(" + KEY_ID_MØTEDELTAKELSE +
+                " INTEGER PRIMARY KEY," + KEY_MØTE_ID + " INTEGER, " +
+                + "FOREIGN KEY("+CONTACT_ID+") REFERENCES "+DatabaseManagerContact.TABLE_NAME+"("+CONTACT_ID+"), "
+                + FOREIGN KEY("+OTHER_ID+") REFERENCES "+DatabaseManagerContact.ANOTHER_TABLE_NAME+"("+ANOTHER_ID+"));";
+
+        Log.d("SQL", LAG_TABELL_MØTER);
+        db.execSQL(LAG_TABELL_MØTER);
+
+         */
     }
 
     @Override
@@ -66,7 +90,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void slettKontakt(Long inn_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_KONTAKTER, KEY_ID + " =? ", new String[]{Long.toString(inn_id)});
+        db.delete(TABLE_KONTAKTER, KEY_ID_KONTAKT + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }
 
@@ -75,7 +99,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values= new ContentValues();
         values.put(KEY_NAME, kontakt.getNavn());
         values.put(KEY_PH_NO, kontakt.getTelefon());
-        int endret = db.update(TABLE_KONTAKTER, values, KEY_ID + "= ?",
+        int endret = db.update(TABLE_KONTAKTER, values, KEY_ID_KONTAKT + "= ?",
                 new String[]{String.valueOf(kontakt.get_ID())});
         db.close();
         return endret;
@@ -93,8 +117,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public Kontakt finnKontakt(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID, KEY_NAME, KEY_PH_NO},
-                KEY_ID + "=?", new String[]{String.valueOf(id)},
+        Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
+                KEY_ID_KONTAKT + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
         if(cursor!= null) cursor.moveToFirst();
         Kontakt kontakt= new Kontakt(Long.parseLong(cursor.getString(0)), cursor.getString(1),
