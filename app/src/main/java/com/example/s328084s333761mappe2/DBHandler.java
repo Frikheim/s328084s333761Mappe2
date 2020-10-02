@@ -53,7 +53,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MØTE_DELTAKELSE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_KONTAKTER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MØTER);
+
         onCreate(db);
     }
 
@@ -124,11 +127,42 @@ public class DBHandler extends SQLiteOpenHelper {
         return møteListe;
     }
 
+    public List<MøteDeltakelse> finnAlleMøteDeltakelser() {
+        List<MøteDeltakelse> møteDeltakelseListe = new ArrayList<MøteDeltakelse>();
+        String selectQuery = "SELECT * FROM " + TABLE_MØTE_DELTAKELSE;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if (cursor.moveToFirst()) {
+            do {
+                MøteDeltakelse møteDeltakelse = new MøteDeltakelse();
+                møteDeltakelse.set_ID(cursor.getLong(0));
+                møteDeltakelse.setMøte_ID(cursor.getLong(1));
+                møteDeltakelse.setDeltaker_ID(cursor.getLong(2));
+                møteDeltakelseListe.add(møteDeltakelse);
+            } while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+        }
+        return møteDeltakelseListe;
+    }
+
 
 
     public void slettKontakt(Long inn_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_KONTAKTER, KEY_ID_KONTAKT + " =? ", new String[]{Long.toString(inn_id)});
+        db.close();
+    }
+
+    public void slettMøte(Long inn_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MØTER, KEY_ID_MØTE + " =? ", new String[]{Long.toString(inn_id)});
+        db.close();
+    }
+
+    public void slettMøteDeltakelse(Long inn_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MØTE_DELTAKELSE, KEY_ID_MØTEDELTAKELSE + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }
 
@@ -143,8 +177,51 @@ public class DBHandler extends SQLiteOpenHelper {
         return endret;
     }
 
+    public int oppdaterMøte(Møte møte) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put(KEY_TYPE, møte.getType());
+        values.put(KEY_STED, møte.getSted());
+        values.put(KEY_TID, møte.getTidspunkt());
+        int endret = db.update(TABLE_MØTER, values, KEY_ID_MØTE + "= ?",
+                new String[]{String.valueOf(møte.get_ID())});
+        db.close();
+        return endret;
+    }
+
+    public int oppdaterMøteDeltakelse(MøteDeltakelse møteDeltakelse) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put(KEY_ID_MØTE_ID, møteDeltakelse.getMøte_ID());
+        values.put(KEY_PH_NO, møteDeltakelse.getDeltaker_ID());
+        int endret = db.update(TABLE_MØTE_DELTAKELSE, values, KEY_ID_MØTEDELTAKELSE + "= ?",
+                new String[]{String.valueOf(møteDeltakelse.get_ID())});
+        db.close();
+        return endret;
+    }
+
     public int finnAntallKontakter() {
         String sql= "SELECT * FROM " + TABLE_KONTAKTER;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor= db.rawQuery(sql, null);
+        int antall = cursor.getCount();
+        cursor.close();
+        db.close();
+        return antall;
+    }
+
+    public int finnAntallMøter() {
+        String sql= "SELECT * FROM " + TABLE_MØTER;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor= db.rawQuery(sql, null);
+        int antall = cursor.getCount();
+        cursor.close();
+        db.close();
+        return antall;
+    }
+
+    public int finnAntallMøteDeltakelse() {
+        String sql= "SELECT * FROM " + TABLE_MØTE_DELTAKELSE;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor= db.rawQuery(sql, null);
         int antall = cursor.getCount();
@@ -164,5 +241,31 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return kontakt;
+    }
+
+    public Møte finnMøte(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_MØTER, new String[]{KEY_ID_MØTE, KEY_TYPE, KEY_STED, KEY_TID},
+                KEY_ID_MØTE + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+        if(cursor!= null) cursor.moveToFirst();
+        Møte møte= new Møte(cursor.getLong(0), cursor.getString(1),
+                cursor.getString(2), cursor.getString(3));
+        cursor.close();
+        db.close();
+        return møte;
+    }
+
+    public MøteDeltakelse finnMøteDeltakelse(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_MØTE_DELTAKELSE, new String[]{KEY_ID_MØTEDELTAKELSE, KEY_ID_MØTE_ID, KEY_ID_DELTAKER},
+                KEY_ID_MØTEDELTAKELSE + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+        if(cursor!= null) cursor.moveToFirst();
+        MøteDeltakelse møteDeltakelse= new MøteDeltakelse(cursor.getLong(0), cursor.getLong(1),
+                cursor.getLong(2));
+        cursor.close();
+        db.close();
+        return møteDeltakelse;
     }
 }
