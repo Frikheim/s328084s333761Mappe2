@@ -14,20 +14,21 @@ public class DBHandler extends SQLiteOpenHelper {
     static String TABLE_KONTAKTER = "Kontakter";
     static String TABLE_MØTER = "Møter";
     static String TABLE_MØTE_DELTAKELSE = "MøteDeltakelse";
-    static String KEY_ID_KONTAKT = "_ID";
+    static String KEY_ID_KONTAKT = "Kontakt_ID";
     static String KEY_NAME = "Navn";
     static String KEY_PH_NO = "Telefon";
-    static String KEY_ID_MØTE = "_ID";
+    static String KEY_ID_MØTE = "Møte_ID";
     static String KEY_TYPE = "Type";
     static String KEY_STED = "Sted";
     static String KEY_TID = "Tidspunkt";
-    static String KEY_ID_MØTEDELTAKELSE = "_ID";
-    static String KEY_ID_DELTAKER = "_ID";
-    static String KEY_ID_MØTE_ID = "_ID";
+    static String KEY_ID_MØTEDELTAKELSE = "MøteDeltakelse_ID";
+    static String KEY_ID_DELTAKER = "Deltaker_ID";
+    static String KEY_ID_MØTE_ID = "Møte_ID_ID";
     static int DATABASE_VERSION = 1;
     static String DATABASE_NAME = "MøteDatabase";
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        Log.d("SQL", "konstruktør");
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("SQL", LAG_TABELL_MØTER);
         db.execSQL(LAG_TABELL_MØTER);
         String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MØTE_DELTAKELSE + "(" + KEY_ID_MØTEDELTAKELSE +
-                " INTEGER PRIMARY KEY, " + KEY_ID_MØTE_ID + "INTEGER, " + KEY_ID_DELTAKER +
+                " INTEGER PRIMARY KEY, " + KEY_ID_MØTE_ID + " INTEGER, " + KEY_ID_DELTAKER +
                 " INTEGER, FOREIGN KEY (" + KEY_ID_MØTE_ID + ") REFERENCES " + TABLE_MØTER+"("+KEY_ID_MØTE+")," +
                 " FOREIGN KEY (" + KEY_ID_DELTAKER + ") REFERENCES "+TABLE_KONTAKTER+"("+KEY_ID_KONTAKT+"));";
 

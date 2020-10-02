@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
         idinn = (EditText) findViewById(R.id.min_id);
         utskrift = (TextView) findViewById(R.id.utskrift);
         db = new DBHandler(this);
+        db.getWritableDatabase();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //bruk shared pref til å velge mellom leggtil og endre kontakt
 
