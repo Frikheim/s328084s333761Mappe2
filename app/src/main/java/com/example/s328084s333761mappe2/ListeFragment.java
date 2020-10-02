@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class ListeFragment extends Fragment {
     private static ArrayAdapter<String> adapter;
     private static UrlEndret listener;
+
     public interface UrlEndret {
         public void linkEndret(String link);
     }

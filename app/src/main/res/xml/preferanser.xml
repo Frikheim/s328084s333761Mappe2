@@ -6,16 +6,16 @@
         android:key="example_key"
         android:selectable="false"
         android:summary=""
-        android:title="preferanser" />
+        android:title="@string/preferanser" />
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="edit_text_preference_1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference" />
+        android:title="@string/klokkeslett" />
     <SwitchPreference
         android:defaultValue="false"
         android:key="switch_preference_1"
-        android:title="Switch preference" />
+        android:title="@string/sms_tjeneste" />
 
 </PreferenceScreen>

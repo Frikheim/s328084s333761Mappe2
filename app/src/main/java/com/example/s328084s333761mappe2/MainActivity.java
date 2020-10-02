@@ -8,14 +8,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListeFragment.UrlEndret{
 
     EditText navninn;
     EditText telefoninn;
@@ -29,36 +31,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(ipreferanser);
     }
 
-    public void leggtil(View v) {
-        Kontakt kontakt = new Kontakt(navninn.getText().toString(),telefoninn.getText().toString());
-        db.leggTilKontakt(kontakt);
-        Log.d("Legg inn: ", "legger til kontakter");
-    }
-
-    public void visalle(View v) {
-        String tekst = "";
-        List<Kontakt> kontakter = db.finnAlleKontakter();
-
-        for (Kontakt kontakt : kontakter) {
-            tekst = tekst + "Id: " + kontakt.get_ID() + ",Navn: " +
-                    kontakt.getNavn() + " ,Telefon: " + kontakt.getTelefon();
-            Log.d("Navn: ", tekst);
-        }
-        utskrift.setText(tekst);
-    }
-
-    public void slett(View v) {
-        Long kontaktid= (Long.parseLong(idinn.getText().toString()));
-        db.slettKontakt(kontaktid);
-    }
-
-    public void oppdater(View v) {
-        Kontakt kontakt= new Kontakt();
-        kontakt.setNavn(navninn.getText().toString());
-        kontakt.setTelefon(telefoninn.getText().toString());
-        kontakt.set_ID(Long.parseLong(idinn.getText().toString()));
-        db.oppdaterKontakt(kontakt);
-    }
 
     public void linkEndret(String link) {
         if(findViewById(R.id.scriptfragment) != null) {
@@ -92,5 +64,34 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHandler(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //bruk shared pref til å velge mellom leggtil og endre kontakt
+
+        Toolbar myToolbar = (Toolbar)findViewById(R.id.minToolbar);
+
+        myToolbar.inflateMenu(R.menu.hovedmeny);
+        setActionBar(myToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.hovedmeny, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.kontakter:
+                Intent ikontakter = new Intent(this,KontaktActivity.class);
+                startActivity(ikontakter);
+                break;
+            case R.id.preferanser:
+                Intent ipreferanser = new Intent(this,SettPreferanser.class);
+                startActivity(ipreferanser);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

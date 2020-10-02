@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">s328084s333761Mappe2</string>
+    <string name="preferanser">Preferanser</string>
+    <string name="kontakter">Kontakter</string>
+    <string name="møter">Møter</string>
+    <string name="sms_tjeneste">SMS-Tjeneste</string>
+    <string name="klokkeslett">Klokkeslett</string>
 </resources>
