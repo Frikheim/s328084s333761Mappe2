@@ -5,4 +5,20 @@
     <string name="møter">Møter</string>
     <string name="sms_tjeneste">SMS-Tjeneste</string>
     <string name="klokkeslett">Klokkeslett</string>
+    <string name="broadcast">com.example.mappe2.mittbroadcast</string>
+    <string name="sms_nøkkel">smsNøkkel</string>
+    <string name="klokkeslett_nøkkel">klokkeslettNøkkel</string>
+    <string name="klokkeslett_summary">Velg tidspunkt for møtevarsel</string>
+    <string name="klokkeslett_default">8</string>
+    <string name="møter_notif">Møter i dag</string>
+    <string name="innNavn">Skriv inn navn:</string>
+    <string name="innTlf">Skriv inn telefonnummer:</string>
+    <string name="innId">Skriv inn ID:</string>
+    <string name="innType">Skriv inn type:</string>
+    <string name="innSted">Skriv inn sted:</string>
+    <string name="innTidspunkt">Skriv inn tidspunkt:</string>
+    <string name="leggTil">Legg til</string>
+    <string name="slett">Slett</string>
+    <string name="visAlle">Vis alle</string>
+    <string name="oppdater">Oppdater</string>
 </resources>

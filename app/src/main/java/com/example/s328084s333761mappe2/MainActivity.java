@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -66,6 +69,23 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
 
         myToolbar.inflateMenu(R.menu.hovedmeny);
         setActionBar(myToolbar);
+
+        startService();
+    }
+
+    public void startService() {
+        Intent intent = new Intent();
+        intent.setAction(getString(R.string.broadcast));
+        sendBroadcast(intent);
+    }
+
+    public void stoppPeriodisk() {
+        Intent i = new Intent(this, MinService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, i, 0);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarm!= null) {
+            alarm.cancel(pintent);
+        }
     }
 
     @Override
