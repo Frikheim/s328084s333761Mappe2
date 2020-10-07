@@ -1,5 +1,7 @@
 package com.example.s328084s333761mappe2;
 
+import androidx.annotation.NonNull;
+
 public class Møte {
 
     public Long _ID;
@@ -18,6 +20,13 @@ public class Møte {
         this.Type = Type;
         this.Sted = Sted;
         this.Tidspunkt = Tidspunkt;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String streng = get_ID() + ": " + getType() + " Kl: " + getTidspunkt() + " " + getSted();
+        return streng;
     }
 
     public Møte(){}

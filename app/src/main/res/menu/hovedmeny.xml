@@ -7,5 +7,8 @@
     <item
         android:id="@+id/preferanser"
         android:title="@string/preferanser"/>
+    <item
+        android:id="@+id/leggTilMote"
+        android:title="@string/leggTilMøte"/>
 
 </menu>

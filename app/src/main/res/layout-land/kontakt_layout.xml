@@ -1,50 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal">
-    <fragment
-        android:id="@+id/liste"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        class="com.example.s328084s333761mappe2.ListeFragment"
-        tools:layout="@layout/liste_layout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    </fragment>
-    <fragment
-        android:id="@+id/scriptfragment"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="match_parent"
-        class="com.example.s328084s333761mappe2.VisMoteFragment"
-        tools:layout="@layout/vismote_layout">
-
-    </fragment>
-
+    <Toolbar
+        android:id="@+id/kontaktToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorAccent"
+        android:title="@string/kontakter"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skriv inn navn:" />
+        android:text="@string/innNavn" />
     <EditText
-        android:id="@+id/navn"
+        android:id="@+id/navninn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skriv inn telefon:" />
+        android:text="@string/innTlf" />
     <EditText
-        android:id="@+id/telefon"
+        android:id="@+id/telefoninn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skriv inn id:" />
+        android:text="@string/innId" />
     <EditText
         android:id="@+id/min_id"
         android:layout_width="match_parent"
@@ -54,25 +41,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="leggtil"
-        android:text="Legg til"/>
+        android:text="@string/leggTil"/>
     <Button
         android:id="@+id/slett"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="slett"
-        android:text="Slett" />
+        android:text="@string/slett" />
     <Button
         android:id="@+id/visalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="visalle"
-        android:text="Vis alle" />
+        android:text="@string/visAlle" />
     <Button
         android:id="@+id/oppdater"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="oppdater"
-        android:text="Oppdater" />
+        android:text="@string/oppdater" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

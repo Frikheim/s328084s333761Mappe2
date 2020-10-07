@@ -61,6 +61,25 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public ArrayList<String> møteListe() {
+        ArrayList<String> møteListe = new ArrayList<String>();
+        List<Møte> møter = finnAlleMøter();
+        for (Møte møte: møter ) {
+            møteListe.add(møte.toString());
+        }
+        return møteListe;
+    }
+
+    public ArrayList<String> deltakerListe(List<MøteDeltakelse> deltakere) {
+        ArrayList<String> deltakerListe = new ArrayList<>();
+
+        for (MøteDeltakelse møteDeltakelse: deltakere ) {
+            Kontakt kontakt = finnKontakt(møteDeltakelse.getDeltaker_ID());
+            deltakerListe.add(kontakt.getNavn());
+        }
+        return deltakerListe;
+    }
+
     public void leggTilMøte (Møte møte) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -131,6 +150,25 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<MøteDeltakelse> finnAlleMøteDeltakelser() {
         List<MøteDeltakelse> møteDeltakelseListe = new ArrayList<MøteDeltakelse>();
         String selectQuery = "SELECT * FROM " + TABLE_MOTE_DELTAKELSE;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if (cursor.moveToFirst()) {
+            do {
+                MøteDeltakelse møteDeltakelse = new MøteDeltakelse();
+                møteDeltakelse.set_ID(cursor.getLong(0));
+                møteDeltakelse.setMøte_ID(cursor.getLong(1));
+                møteDeltakelse.setDeltaker_ID(cursor.getLong(2));
+                møteDeltakelseListe.add(møteDeltakelse);
+            } while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+        }
+        return møteDeltakelseListe;
+    }
+
+    public List<MøteDeltakelse> finnMøteDeltakelseIMøte(Long møteId) {
+        List<MøteDeltakelse> møteDeltakelseListe = new ArrayList<MøteDeltakelse>();
+        String selectQuery = "SELECT * FROM " + TABLE_MOTE_DELTAKELSE + " WHERE " + KEY_ID_MOTE_ID + " = " + møteId;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
         if (cursor.moveToFirst()) {
@@ -231,7 +269,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return antall;
     }
 
-    public Kontakt finnKontakt(int id) {
+    public Kontakt finnKontakt(Long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
                 KEY_ID_KONTAKT + "=?", new String[]{String.valueOf(id)},

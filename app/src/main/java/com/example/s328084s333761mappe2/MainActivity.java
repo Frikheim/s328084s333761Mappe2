@@ -17,10 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements ListeFragment.UrlEndret{
+public class MainActivity extends AppCompatActivity implements ListeFragment.MøteEndret {
 
     EditText navninn;
     EditText telefoninn;
@@ -35,23 +34,26 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
     }
 
 
-    public void linkEndret(String link) {
+
+    public void idEndret(String innhold) {
+        String[] splittet = innhold.split(":");
+        String id = splittet[0];
         if(findViewById(R.id.scriptfragment) != null) {
-            VisScriptFragment visscript= (VisScriptFragment) getSupportFragmentManager().findFragmentById(R.id.scriptfragment);
+            VisMoteFragment visscript= (VisMoteFragment) getSupportFragmentManager().findFragmentById(R.id.scriptfragment);
             if(visscript== null) {
-                visscript= new VisScriptFragment();
-                visscript.init(link);
+                visscript= new VisMoteFragment();
+                visscript.init(id);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction trans = fm.beginTransaction();
                 trans.replace(R.id.listefragment, visscript);
                 trans.commit();
             }
             else{
-                visscript.updateUrl(link);
+                visscript.updateUrl(id);
             }
         } else {
-            Intent i = new Intent(this, VisScriptActivity.class);
-            i.putExtra("scriptnavn", link);
+            Intent i = new Intent(this, VisMoteActivity.class);
+            i.putExtra("moteid", id);
             startActivity(i);
         }
     }
@@ -96,6 +98,14 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        ListeFragment liste = (ListeFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.listefragment);
+        liste.oppdater();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.kontakter:
@@ -105,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Url
             case R.id.preferanser:
                 Intent ipreferanser = new Intent(this,SettPreferanser.class);
                 startActivity(ipreferanser);
+                break;
+            case R.id.leggTilMote:
+                Intent inyttMote = new Intent(this,MøteActivity.class);
+                startActivity(inyttMote);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

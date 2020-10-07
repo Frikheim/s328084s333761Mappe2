@@ -16,18 +16,20 @@ import java.util.ArrayList;
 
 public class ListeFragment extends Fragment {
     private static ArrayAdapter<String> adapter;
-    private static UrlEndret listener;
+    private static MøteEndret listener;
 
-    public interface UrlEndret {
-        public void linkEndret(String link);
+    public interface MøteEndret {
+        public void idEndret(String innhold);
     }
+
+    public View v;
 
     @Override public void onAttach(Context context) {
         super.onAttach(context);
         Activity activity;
         activity= (Activity) context;
         try {
-            listener= (UrlEndret) activity;
+            listener= (MøteEndret) activity;
             System.out.println("satt lytter");
         }
         catch(ClassCastException e) {
@@ -36,20 +38,32 @@ public class ListeFragment extends Fragment {
     }
     public ListeFragment() {}
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.liste_layout, container, false);
+        v = inflater.inflate(R.layout.liste_layout, container, false);
         ListView lv = (ListView) v.findViewById(R.id.liste);
-        String[] values= new String[]{"script1.sql", "script2.sql"};
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
+        DBHandler db = new DBHandler(getActivity());
+        db.getWritableDatabase();
+        final ArrayList<String> list = db.møteListe();
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String data = adapter.getItem(i);listener.linkEndret(data);
+                String data = adapter.getItem(i);listener.idEndret(data);
             }
         });
         return v;
+    }
+
+    public void oppdater() {
+        ListView lv = (ListView) v.findViewById(R.id.liste);
+        DBHandler db = new DBHandler(getActivity());
+        db.getWritableDatabase();
+        final ArrayList<String> list = db.møteListe();
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String data = adapter.getItem(i);listener.idEndret(data);
+            }
+        });
     }
 } 
