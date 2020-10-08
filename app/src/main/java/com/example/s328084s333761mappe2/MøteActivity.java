@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,6 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -42,8 +47,27 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         stedinn = findViewById(R.id.stedinn);
         datoBoks = findViewById(R.id.datoBoks);
         tidBoks = findViewById(R.id.tidBoks);
+        deltakerListe = findViewById(R.id.leggTilDeltakerListe);
+        deltakerListe.setItemsCanFocus(false);
         db = new DBHandler(this);
         db.getWritableDatabase();
+
+        final ArrayList<String> list = db.kontaktListe();
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, list);
+        deltakerListe.setAdapter(adapter);
+        deltakerListe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = (String) deltakerListe.getItemAtPosition(i);
+                Log.d("item", item);
+                if(valgteDeltakere.contains(item)) {
+                    valgteDeltakere.remove(item);
+                }
+                else {
+                    valgteDeltakere.add(item);
+                }
+            }
+        });
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
@@ -53,6 +77,8 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     EditText tidinn;
     TextView datoBoks;
     TextView tidBoks;
+    ListView deltakerListe;
+    List<String> valgteDeltakere = new ArrayList<>();
 
     DBHandler db;
     String dato;
@@ -68,30 +94,13 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         super.onDestroy();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("TAG", "Er i onResume");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("TAG", "Er nå i onStop");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("TAG", "Er nå i onPause");
-    }
-
     public void leggtil(View v) {
         dato = prefs.getString(getString(R.string.velgDato),"");
         tid = prefs.getString(getString(R.string.velgTidspunkt),"");
         String type = typeinn.getText().toString();
         String sted = stedinn.getText().toString();
-        if(dato == "" || tid == "" || type == "" || sted == "") {
+
+        if(dato == "" || tid == "" || type == "" || sted == "" || valgteDeltakere.isEmpty()) {
             Toast.makeText(getApplicationContext(),R.string.møteIkkeFyltUt, Toast.LENGTH_SHORT).show();
         }
         else {
@@ -100,9 +109,31 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
             editor.putString(getString(R.string.velgTidspunkt),"");
             editor.apply();
             Møte møte = new Møte(type, sted, dato, tid);
-            //Fikse møtedeltakelse
             db.leggTilMøte(møte);
-            Log.d("Legg inn: ", "legger til møter");
+
+            List<Møte> møter = db.finnAlleMøter();
+            Møte lagretMøte = db.finnMøte(møte.getType(),møte.getSted(),møte.getDato(),møte.getTidspunkt());
+            for (String streng : valgteDeltakere) {
+                Kontakt kontakt = db.finnKontakt(streng);
+                Log.d("navn",kontakt.getNavn());
+                MøteDeltakelse møteDeltakelse = new MøteDeltakelse(lagretMøte.get_ID(),kontakt.get_ID());
+                db.leggTilMøteDeltakelse(møteDeltakelse);
+            }
+        }
+
+        Log.d("Legg inn: ", "legger til møter");
+    }
+
+
+    public void velgDeltaker(View v) {
+        ListView listView = (ListView) v;
+        String item = (String)listView.getSelectedItem();
+        Log.d("item", item);
+        if(valgteDeltakere.contains(item)) {
+            valgteDeltakere.remove(item);
+        }
+        else {
+            valgteDeltakere.add(item);
         }
     }
 

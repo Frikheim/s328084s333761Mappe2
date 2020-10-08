@@ -25,4 +25,5 @@
     <string name="velgDato">Velg dato</string>
     <string name="velgTidspunkt">Velg tidspunkt</string>
     <string name="møteIkkeFyltUt">Du må fylle inn alle feltene</string>
+    <string name="deltakerListeTittel">Velg møtedeltakere</string>
 </resources>

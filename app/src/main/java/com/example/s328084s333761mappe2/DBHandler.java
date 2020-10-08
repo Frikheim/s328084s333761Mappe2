@@ -83,6 +83,15 @@ public class DBHandler extends SQLiteOpenHelper {
         return deltakerListe;
     }
 
+    public ArrayList<String> kontaktListe() {
+        ArrayList<String> kontaktListe = new ArrayList<String>();
+        List<Kontakt> kontakter = finnAlleKontakter();
+        for (Kontakt kontakt : kontakter) {
+            kontaktListe.add(kontakt.getNavn());
+        }
+        return kontaktListe;
+    }
+
     public void leggTilMøte (Møte møte) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -289,6 +298,20 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontakt;
     }
 
+    public Kontakt finnKontakt(String navn) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
+                KEY_NAME + "=?", new String[]{navn},
+                null, null, null, null);
+        if(cursor!= null) cursor.moveToFirst();
+        Kontakt kontakt= new Kontakt(Long.parseLong(cursor.getString(0)), cursor.getString(1),
+                cursor.getString(2));
+        cursor.close();
+        db.close();
+        return kontakt;
+    }
+
+
     public Møte finnMøte(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_MOTER, new String[]{KEY_ID_MOTE, KEY_TYPE, KEY_STED, KEY_DATO, KEY_TID},
@@ -299,6 +322,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 cursor.getString(2), cursor.getString(3), cursor.getString(4));
         cursor.close();
         db.close();
+        return møte;
+    }
+
+    public Møte finnMøte(String type, String sted, String dato, String tidspunkt) {
+        List<Møte> møter = finnAlleMøter();
+        Møte møte = null;
+        for (Møte møte1 : møter) {
+            if(type.equals(møte1.getType()) && sted.equals(møte1.getSted()) &&
+                    dato.equals(møte1.getDato()) && tidspunkt.equals(møte1.getTidspunkt())) {
+                møte = møte1;
+            }
+        }
         return møte;
     }
 
