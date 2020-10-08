@@ -28,20 +28,24 @@
         android:id="@+id/stedinn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
+    <Button
+        android:id="@+id/dato"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/innTidspunkt" />
-    <EditText
-        android:id="@+id/tidinn"
+        android:onClick="visDato"
+        android:text="@string/velgDato" />
+    <TextView
+        android:id="@+id/datoBoks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
+    <Button
+        android:id="@+id/tidspunkt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/innId" />
-    <EditText
-        android:id="@+id/idinn"
+        android:onClick="visTidspunkt"
+        android:text="@string/velgTidspunkt" />
+    <TextView
+        android:id="@+id/tidBoks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
@@ -50,26 +54,4 @@
         android:layout_height="wrap_content"
         android:onClick="leggtil"
         android:text="@string/leggTil"/>
-    <Button
-        android:id="@+id/slett"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="slett"
-        android:text="@string/slett" />
-    <Button
-        android:id="@+id/visalle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="visalle"
-        android:text="@string/visAlle" />
-    <Button
-        android:id="@+id/oppdater"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="oppdater"
-        android:text="@string/oppdater" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/utskrift" />
 </LinearLayout>

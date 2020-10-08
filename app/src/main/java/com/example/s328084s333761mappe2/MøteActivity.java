@@ -1,22 +1,34 @@
 package com.example.s328084s333761mappe2;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import java.util.Calendar;
 import java.util.List;
 
-public class MøteActivity extends AppCompatActivity {
+public class MøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,40 +38,83 @@ public class MøteActivity extends AppCompatActivity {
         myToolbar.inflateMenu(R.menu.motemeny);
         setActionBar(myToolbar);
 
-        typeinn = (EditText) findViewById(R.id.typeinn);
-        stedinn = (EditText) findViewById(R.id.stedinn);
-        tidinn = (EditText) findViewById(R.id.tidinn);
-        idinn = (EditText) findViewById(R.id.idinn);
-        utskrift = (TextView) findViewById(R.id.utskrift);
-
+        typeinn = findViewById(R.id.typeinn);
+        stedinn = findViewById(R.id.stedinn);
+        datoBoks = findViewById(R.id.datoBoks);
+        tidBoks = findViewById(R.id.tidBoks);
         db = new DBHandler(this);
         db.getWritableDatabase();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     EditText typeinn;
     EditText stedinn;
     EditText idinn;
     EditText tidinn;
-    TextView utskrift;
-    DBHandler db;
+    TextView datoBoks;
+    TextView tidBoks;
 
-    public void leggtil(View v) {
-        Møte møte = new Møte(typeinn.getText().toString(),stedinn.getText().toString(),tidinn.getText().toString());
-        //Fikse møtedeltakelse
-        db.leggTilMøte(møte);
-        Log.d("Legg inn: ", "legger til møter");
+    DBHandler db;
+    String dato;
+    String tid;
+    SharedPreferences prefs;
+
+    @Override
+    protected void onDestroy() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(getString(R.string.velgDato),"");
+        editor.putString(getString(R.string.velgTidspunkt),"");
+        editor.apply();
+        super.onDestroy();
     }
 
-    public void visalle(View v) {
-        String tekst = "";
-        List<Møte> møter = db.finnAlleMøter();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("TAG", "Er i onResume");
+    }
 
-        for (Møte møte : møter) {
-            tekst = tekst + "Id: " + møte.get_ID() + ", Type: " +
-                    møte.getType() + " , Sted: " + møte.getSted() + ", Tid: " + møte.getTidspunkt();
-            Log.d("Møte: ", tekst);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("TAG", "Er nå i onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("TAG", "Er nå i onPause");
+    }
+
+    public void leggtil(View v) {
+        dato = prefs.getString(getString(R.string.velgDato),"");
+        tid = prefs.getString(getString(R.string.velgTidspunkt),"");
+        String type = typeinn.getText().toString();
+        String sted = stedinn.getText().toString();
+        if(dato == "" || tid == "" || type == "" || sted == "") {
+            Toast.makeText(getApplicationContext(),R.string.møteIkkeFyltUt, Toast.LENGTH_SHORT).show();
         }
-        utskrift.setText(tekst);
+        else {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getString(R.string.velgDato),"");
+            editor.putString(getString(R.string.velgTidspunkt),"");
+            editor.apply();
+            Møte møte = new Møte(type, sted, dato, tid);
+            //Fikse møtedeltakelse
+            db.leggTilMøte(møte);
+            Log.d("Legg inn: ", "legger til møter");
+        }
+    }
+
+
+    public void visTidspunkt(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void visDato(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void slett(View v) {
@@ -99,5 +154,11 @@ public class MøteActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onDialogDismissListener() {
+        tidBoks.setText(prefs.getString(getString(R.string.velgTidspunkt),""));
+        datoBoks.setText(prefs.getString(getString(R.string.velgDato),""));
     }
 }

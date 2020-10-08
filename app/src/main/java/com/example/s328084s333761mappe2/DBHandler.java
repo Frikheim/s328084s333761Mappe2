@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -20,11 +22,12 @@ public class DBHandler extends SQLiteOpenHelper {
     static String KEY_ID_MOTE = "Mote_ID";
     static String KEY_TYPE = "Type";
     static String KEY_STED = "Sted";
+    static String KEY_DATO = "Dato";
     static String KEY_TID = "Tidspunkt";
     static String KEY_ID_MOTEDELTAKELSE = "MoteDeltakelse_ID";
     static String KEY_ID_DELTAKER = "Deltaker_ID";
     static String KEY_ID_MOTE_ID = "Mote_ID_ID";
-    static int DATABASE_VERSION = 1;
+    static int DATABASE_VERSION = 2;
     static String DATABASE_NAME = "MoteDatabase";
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,8 +42,8 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("SQL", LAG_TABELL_KONTAKTER);
         db.execSQL(LAG_TABELL_KONTAKTER);
         String LAG_TABELL_MØTER = "CREATE TABLE " + TABLE_MOTER + "(" + KEY_ID_MOTE +
-                " INTEGER PRIMARY KEY," + KEY_TYPE + " TEXT," + KEY_STED +
-                " TEXT," + KEY_TID + " TEXT" + ")";
+                " INTEGER PRIMARY KEY," + KEY_TYPE + " TEXT," + KEY_STED + " TEXT," +
+                  KEY_DATO + " TEXT," + KEY_TID + " TEXT)";
         Log.d("SQL", LAG_TABELL_MØTER);
         db.execSQL(LAG_TABELL_MØTER);
         String LAG_TABELL_MØTEDELTAKELSE = "CREATE TABLE " + TABLE_MOTE_DELTAKELSE + "(" + KEY_ID_MOTEDELTAKELSE +
@@ -85,6 +88,8 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TYPE, møte.getType());
         values.put(KEY_STED, møte.getSted());
+        //Fiks
+        values.put(KEY_DATO,møte.getDato());
         values.put(KEY_TID, møte.getTidspunkt());
         db.insert(TABLE_MOTER,null,values);
         db.close();
@@ -138,7 +143,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 møte.set_ID(cursor.getLong(0));
                 møte.setType(cursor.getString(1));
                 møte.setSted(cursor.getString(2));
-                møte.setTidspunkt(cursor.getString(3));
+                møte.setDato(cursor.getString(3));
+                møte.setTidspunkt(cursor.getString(4));
                 møteListe.add(møte);
             } while (cursor.moveToNext());
             cursor.close();
@@ -221,6 +227,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values= new ContentValues();
         values.put(KEY_TYPE, møte.getType());
         values.put(KEY_STED, møte.getSted());
+        values.put(KEY_DATO, møte.getDato());
         values.put(KEY_TID, møte.getTidspunkt());
         int endret = db.update(TABLE_MOTER, values, KEY_ID_MOTE + "= ?",
                 new String[]{String.valueOf(møte.get_ID())});
@@ -284,12 +291,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public Møte finnMøte(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor= db.query(TABLE_MOTER, new String[]{KEY_ID_MOTE, KEY_TYPE, KEY_STED, KEY_TID},
+        Cursor cursor= db.query(TABLE_MOTER, new String[]{KEY_ID_MOTE, KEY_TYPE, KEY_STED, KEY_DATO, KEY_TID},
                 KEY_ID_MOTE + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
         if(cursor!= null) cursor.moveToFirst();
         Møte møte= new Møte(cursor.getLong(0), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3));
+                cursor.getString(2), cursor.getString(3), cursor.getString(4));
         cursor.close();
         db.close();
         return møte;
