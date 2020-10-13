@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Toolbar
+        android:id="@+id/moteToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorAccent"
+        android:title="@string/møter"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/innType" />
+    <EditText
+        android:id="@+id/typeinn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/innSted" />
+    <EditText
+        android:id="@+id/stedinn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/dato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="visDato"
+        android:text="@string/velgDato" />
+    <TextView
+        android:id="@+id/datoBoks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/tidspunkt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="visTidspunkt"
+        android:text="@string/velgTidspunkt" />
+    <TextView
+        android:id="@+id/tidBoks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="@string/deltakerListeTittel"
+        android:id="@+id/deltakerListeTittel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:id="@+id/leggTilDeltakerListe"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@drawable/valgtliste"
+        android:choiceMode="multipleChoice"
+        android:listSelector="#666666"
+        />
+    <Button
+        android:id="@+id/endreKnapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="endre"
+        android:text="@string/endreMøte"/>
+</LinearLayout>

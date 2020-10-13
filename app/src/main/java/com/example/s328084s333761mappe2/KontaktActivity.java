@@ -59,19 +59,6 @@ public class KontaktActivity extends AppCompatActivity {
         utskrift.setText(tekst);
     }
 
-    public void slett(View v) {
-        Long kontaktid= (Long.parseLong(idinn.getText().toString()));
-        db.slettKontakt(kontaktid);
-    }
-
-    public void oppdater(View v) {
-        Kontakt kontakt= new Kontakt();
-        kontakt.setNavn(navninn.getText().toString());
-        kontakt.setTelefon(telefoninn.getText().toString());
-        kontakt.set_ID(Long.parseLong(idinn.getText().toString()));
-        db.oppdaterKontakt(kontakt);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

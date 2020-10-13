@@ -1,5 +1,6 @@
 package com.example.s328084s333761mappe2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,9 +44,27 @@ public class VisMoteFragment extends Fragment {
             boks.setText(møte.toString());
             ListView liste = motevindu.findViewById(R.id.deltakerListeView);
             List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
+
             final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
+            Log.d("deltakerliste",list.get(0));
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
             liste.setAdapter(adapter);
+
+            Button endreMøte = motevindu.findViewById(R.id.endreMøte);
+            endreMøte.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick( View view) {
+                    View foreldre = (View) view.getParent().getParent();
+                    TextView textboks = foreldre.findViewById(R.id.møteView);
+                    Log.d("tekstboks","");
+                    String bokInnhold = textboks.getText().toString();
+                    String[] splittet = bokInnhold.split(":");
+                    Long id = Long.parseLong(splittet[0]);
+                    Intent endreMote = new Intent(foreldre.getContext(),EndreMøteActivity.class);
+                    endreMote.putExtra("endremoteid", id);
+                    Log.d("id",id.toString());
+                    startActivity(endreMote);
+                }
+            });
         }
         return motevindu;
     }
@@ -61,5 +81,13 @@ public class VisMoteFragment extends Fragment {
         final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         liste.setAdapter(adapter);
+    }
+
+    public void endreMøte(View v) {
+
+    }
+
+    public void slettMøte(View v) {
+
     }
 }

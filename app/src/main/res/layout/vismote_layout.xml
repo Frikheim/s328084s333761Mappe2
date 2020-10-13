@@ -16,8 +16,26 @@
         android:layout_height="wrap_content">
 
     </ListView>
-    <WebView
-        android:id="@+id/visscript"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/endreMøte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/endreMøte"
+            />
+
+        <Button
+            android:id="@+id/slettMøte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/slettMøte" />
+    </LinearLayout>
+
 </LinearLayout>

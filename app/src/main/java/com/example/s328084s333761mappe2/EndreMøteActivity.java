@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
+public class EndreMøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +44,20 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         myToolbar.inflateMenu(R.menu.motemeny);
         setActionBar(myToolbar);
 
+        //får inn id til møte som skal endres
+        Intent i = this.getIntent();
+        String motedId= i.getExtras().getString("endremoteid");
+        møte = db.finnMøte(Integer.parseInt(motedId));
+        //gir feltene de originale verdiene
         typeinn = findViewById(R.id.typeinn);
+        typeinn.setText(møte.getType());
         stedinn = findViewById(R.id.stedinn);
+        stedinn.setText(møte.getSted());
         datoBoks = findViewById(R.id.datoBoks);
+        datoBoks.setText(møte.getDato());
         tidBoks = findViewById(R.id.tidBoks);
+        tidBoks.setText(møte.getTidspunkt());
+
         deltakerListe = findViewById(R.id.leggTilDeltakerListe);
         deltakerListe.setItemsCanFocus(false);
         db = new DBHandler(this);
@@ -83,6 +94,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     DBHandler db;
     String dato;
     String tid;
+    Møte møte;
     SharedPreferences prefs;
 
     @Override
@@ -94,7 +106,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         super.onDestroy();
     }
 
-    public void leggtil(View v) {
+    public void endre(View v) {
         dato = prefs.getString(getString(R.string.velgDato),"");
         tid = prefs.getString(getString(R.string.velgTidspunkt),"");
         String type = typeinn.getText().toString();
@@ -108,34 +120,23 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
             editor.putString(getString(R.string.velgDato),"");
             editor.putString(getString(R.string.velgTidspunkt),"");
             editor.apply();
-            Møte møte = new Møte(type, sted, dato, tid);
-            db.leggTilMøte(møte);
-
-            List<Møte> møter = db.finnAlleMøter();
-            Møte lagretMøte = db.finnMøte(møte.getType(),møte.getSted(),møte.getDato(),møte.getTidspunkt());
+            //endre møte
+            Møte endreMøte = new Møte(møte.get_ID(),type, sted, dato, tid);
+            db.oppdaterMøte(endreMøte);
+            List<MøteDeltakelse> gamleDeltakere = db.finnMøteDeltakelseIMøte(møte.get_ID());
+            for (MøteDeltakelse deltaker : gamleDeltakere) {
+                db.slettMøteDeltakelse(deltaker.get_ID());
+            }
             for (String streng : valgteDeltakere) {
                 Kontakt kontakt = db.finnKontakt(streng);
 
-                MøteDeltakelse møteDeltakelse = new MøteDeltakelse(lagretMøte.get_ID(),kontakt.get_ID());
+                MøteDeltakelse møteDeltakelse = new MøteDeltakelse(endreMøte.get_ID(),kontakt.get_ID());
                 Log.d("navn",møteDeltakelse.getDeltaker_ID().toString());
                 db.leggTilMøteDeltakelse(møteDeltakelse);
             }
         }
 
         Log.d("Legg inn: ", "legger til møter");
-    }
-
-
-    public void velgDeltaker(View v) {
-        ListView listView = (ListView) v;
-        String item = (String)listView.getSelectedItem();
-        Log.d("item", item);
-        if(valgteDeltakere.contains(item)) {
-            valgteDeltakere.remove(item);
-        }
-        else {
-            valgteDeltakere.add(item);
-        }
     }
 
 
@@ -147,20 +148,6 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     public void visDato(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void slett(View v) {
-        Long møteid= (Long.parseLong(idinn.getText().toString()));
-        db.slettMøte(møteid);
-    }
-
-    public void oppdater(View v) {
-        Møte møte= new Møte();
-        møte.setType(typeinn.getText().toString());
-        møte.setSted(stedinn.getText().toString());
-        møte.setTidspunkt(tidinn.getText().toString());
-        møte.set_ID(Long.parseLong(idinn.getText().toString()));
-        db.oppdaterMøte(møte);
     }
 
     @Override

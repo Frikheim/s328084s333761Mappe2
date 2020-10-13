@@ -107,9 +107,9 @@ public class DBHandler extends SQLiteOpenHelper {
     public void leggTilMøteDeltakelse (MøteDeltakelse møteDeltakelse) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID_MOTE, møteDeltakelse.getMøte_ID());
-        values.put(KEY_ID_KONTAKT, møteDeltakelse.getDeltaker_ID());
-        db.insert(TABLE_MOTER,null,values);
+        values.put(KEY_ID_MOTE_ID, møteDeltakelse.getMøte_ID());
+        values.put(KEY_ID_DELTAKER, møteDeltakelse.getDeltaker_ID());
+        db.insert(TABLE_MOTE_DELTAKELSE,null,values);
         db.close();
     }
 
@@ -210,6 +210,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void slettMøte(Long inn_id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        List<MøteDeltakelse> deltakere = finnMøteDeltakelseIMøte(inn_id);
+        for (MøteDeltakelse deltaker: deltakere) {
+            slettMøteDeltakelse(deltaker.get_ID());
+        }
         db.delete(TABLE_MOTER, KEY_ID_MOTE + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }

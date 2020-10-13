@@ -27,7 +27,12 @@
         <activity android:name=".KontaktActivity" android:parentActivityName=".MainActivity">
 
         </activity>
-        <activity android:name=".MøteActivity" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".MøteActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".EndreMøteActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
 
         <receiver android:name=".MinBroadcastReceiver">
             <intent-filter>

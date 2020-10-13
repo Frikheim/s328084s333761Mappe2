@@ -125,4 +125,22 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         }
         return true;
     }
+
+    public void endreMøte(View v) {
+        TextView boks = findViewById(R.id.møteView);
+        String bokInnhold = boks.getText().toString();
+        String[] splittet = bokInnhold.split(":");
+        Long id = Long.parseLong(splittet[0]);
+        Intent endreMote = new Intent(this,EndreMøteActivity.class);
+        endreMote.putExtra("endremoteid", id);
+        startActivity(endreMote);
+    }
+
+    public void slettMøte(View v) {
+        TextView boks = findViewById(R.id.møteView);
+        String bokInnhold = boks.getText().toString();
+        String[] splittet = bokInnhold.split(":");
+        Long id = Long.parseLong(splittet[0]);
+        db.slettMøte(id);
+    }
 }
