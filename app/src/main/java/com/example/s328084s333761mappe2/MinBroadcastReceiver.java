@@ -3,6 +3,7 @@ package com.example.s328084s333761mappe2;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MinBroadcastReceiver extends BroadcastReceiver {
@@ -11,6 +12,7 @@ public class MinBroadcastReceiver extends BroadcastReceiver {
         Toast.makeText(context, "I BroadcastReceiver", Toast.LENGTH_SHORT).show();
 
         Intent i = new Intent(context, SettPeriodiskService.class);
+        Log.d("TAG","Er i broadcastreceiver" + intent.toString());
         context.startService(i);
     }
 }

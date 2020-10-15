@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,7 @@ public class SettPeriodiskService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("TAG", "Er i settperiodiskservice");
         Calendar cal = Calendar.getInstance();
         Intent i = new Intent(this, MinService.class);
         PendingIntent pintent = PendingIntent.getService(this, 0, i, 0);

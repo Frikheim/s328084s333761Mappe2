@@ -43,9 +43,10 @@
 
         </activity>
 
-        <receiver android:name=".MinBroadcastReceiver">
+        <receiver android:name=".MinBroadcastReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="com.example.mappe2.mittbroadcast" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <service android:name=".MinService" />
