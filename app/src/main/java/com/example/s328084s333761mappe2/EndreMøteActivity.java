@@ -38,7 +38,7 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mote_layout);
+        setContentView(R.layout.endre_mote_layout);
         Toolbar myToolbar = (Toolbar)findViewById(R.id.moteToolbar);
 
         myToolbar.inflateMenu(R.menu.motemeny);
@@ -46,8 +46,10 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
 
         //får inn id til møte som skal endres
         Intent i = this.getIntent();
-        String motedId= i.getExtras().getString("endremoteid");
-        møte = db.finnMøte(Integer.parseInt(motedId));
+        Long motedId= i.getExtras().getLong("endremoteid");
+        db = new DBHandler(this);
+        db.getWritableDatabase();
+        møte = db.finnMøte(motedId.intValue());
         //gir feltene de originale verdiene
         typeinn = findViewById(R.id.typeinn);
         typeinn.setText(møte.getType());
@@ -60,8 +62,7 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
 
         deltakerListe = findViewById(R.id.leggTilDeltakerListe);
         deltakerListe.setItemsCanFocus(false);
-        db = new DBHandler(this);
-        db.getWritableDatabase();
+
 
         final ArrayList<String> list = db.kontaktListe();
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, list);

@@ -56,13 +56,31 @@ public class VisMoteFragment extends Fragment {
                     View foreldre = (View) view.getParent().getParent();
                     TextView textboks = foreldre.findViewById(R.id.møteView);
                     Log.d("tekstboks","");
-                    String bokInnhold = textboks.getText().toString();
-                    String[] splittet = bokInnhold.split(":");
+                    String boksInnhold = textboks.getText().toString();
+                    String[] splittet = boksInnhold.split(":");
                     Long id = Long.parseLong(splittet[0]);
                     Intent endreMote = new Intent(foreldre.getContext(),EndreMøteActivity.class);
                     endreMote.putExtra("endremoteid", id);
                     Log.d("id",id.toString());
                     startActivity(endreMote);
+
+                    getActivity().onBackPressed();
+                }
+            });
+
+            Button slettMøte = motevindu.findViewById(R.id.slettMøte);
+            slettMøte.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick( View view) {
+                    View foreldre = (View) view.getParent().getParent();
+                    TextView textboks = foreldre.findViewById(R.id.møteView);
+                    String boksInnhold = textboks.getText().toString();
+                    String[] splittet = boksInnhold.split(":");
+                    Long id = Long.parseLong(splittet[0]);
+                    DBHandler db = new DBHandler(getActivity());
+                    db.getWritableDatabase();
+                    db.slettMøte(id);
+
+                    getActivity().onBackPressed();
                 }
             });
         }

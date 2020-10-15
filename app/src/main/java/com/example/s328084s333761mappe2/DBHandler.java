@@ -209,11 +209,11 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void slettMøte(Long inn_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
         List<MøteDeltakelse> deltakere = finnMøteDeltakelseIMøte(inn_id);
         for (MøteDeltakelse deltaker: deltakere) {
             slettMøteDeltakelse(deltaker.get_ID());
         }
+        SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MOTER, KEY_ID_MOTE + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }
