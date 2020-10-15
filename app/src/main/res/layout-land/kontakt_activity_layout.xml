@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+    <fragment
+        android:id="@+id/listefragmentkontakt"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        class="com.example.s328084s333761mappe2.ListeFragment"
+        tools:layout="@layout/liste_layout">
+
+    </fragment>
+    <fragment
+        android:id="@+id/scriptfragmentkontakt"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        class="com.example.s328084s333761mappe2.VisMoteFragment"
+        tools:layout="@layout/vismote_layout">
+
+    </fragment>
+</LinearLayout>

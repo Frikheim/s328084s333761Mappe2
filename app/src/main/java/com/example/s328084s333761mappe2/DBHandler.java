@@ -77,7 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<String> deltakerListe = new ArrayList<>();
 
         for (MøteDeltakelse møteDeltakelse: deltakere ) {
-            Kontakt kontakt = finnKontakt(møteDeltakelse.getDeltaker_ID());
+            Kontakt kontakt = finnKontakt(møteDeltakelse.getDeltaker_ID().intValue());
             deltakerListe.add(kontakt.getNavn());
         }
         return deltakerListe;
@@ -208,6 +208,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void slettKontakt(String navn_inn) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_KONTAKTER, KEY_NAME + " =? ", new String[]{navn_inn});
+        db.close();
+    }
+
     public void slettMøte(Long inn_id) {
         List<MøteDeltakelse> deltakere = finnMøteDeltakelseIMøte(inn_id);
         for (MøteDeltakelse deltaker: deltakere) {
@@ -289,7 +295,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return antall;
     }
 
-    public Kontakt finnKontakt(Long id) {
+    public Kontakt finnKontakt(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
                 KEY_ID_KONTAKT + "=?", new String[]{String.valueOf(id)},
@@ -303,6 +309,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public Kontakt finnKontakt(String navn) {
+        Log.d("TAG", "Navn:" + navn + ".");
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
                 KEY_NAME + "=?", new String[]{navn},

@@ -21,16 +21,25 @@
         <activity android:name=".SettPreferanser" android:parentActivityName=".MainActivity">
 
         </activity>
-        <activity android:name=".VisMoteActivity" android:parentActivityName=".VisMoteActivity">
+        <activity android:name=".VisMoteActivity" android:parentActivityName=".MainActivity">
 
         </activity>
-        <activity android:name=".KontaktActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".VisKontaktActivity" android:parentActivityName=".KontaktActivity">
+
+        </activity>
+        <activity android:name=".LeggTilKontaktActivity" android:parentActivityName=".KontaktActivity">
 
         </activity>
         <activity android:name=".MøteActivity" android:parentActivityName=".MainActivity">
 
         </activity>
         <activity android:name=".EndreMøteActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".KontaktActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".EndreKontaktActivity" android:parentActivityName=".KontaktActivity">
 
         </activity>
 

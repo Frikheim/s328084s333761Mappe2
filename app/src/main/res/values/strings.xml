@@ -28,4 +28,6 @@
     <string name="deltakerListeTittel">Velg møtedeltakere</string>
     <string name="slettMøte">Slett møte</string>
     <string name="endreMøte">Endre møte</string>
+    <string name="slettKontakt">Slett kontakt</string>
+    <string name="endreKontakt">Endre kontakt</string>
 </resources>

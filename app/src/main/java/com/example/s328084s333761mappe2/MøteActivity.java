@@ -1,27 +1,19 @@
 package com.example.s328084s333761mappe2;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.format.DateFormat;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -30,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
@@ -120,22 +111,9 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
                 Log.d("navn",møteDeltakelse.getDeltaker_ID().toString());
                 db.leggTilMøteDeltakelse(møteDeltakelse);
             }
+            finish();
         }
 
-        Log.d("Legg inn: ", "legger til møter");
-    }
-
-
-    public void velgDeltaker(View v) {
-        ListView listView = (ListView) v;
-        String item = (String)listView.getSelectedItem();
-        Log.d("item", item);
-        if(valgteDeltakere.contains(item)) {
-            valgteDeltakere.remove(item);
-        }
-        else {
-            valgteDeltakere.add(item);
-        }
     }
 
 
@@ -174,7 +152,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.kontakter:
-                Intent ikontakter = new Intent(this,KontaktActivity.class);
+                Intent ikontakter = new Intent(this, LeggTilKontaktActivity.class);
                 startActivity(ikontakter);
                 finish();
                 break;

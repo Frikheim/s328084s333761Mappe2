@@ -31,11 +31,6 @@ public class VisMoteFragment extends Fragment {
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View motevindu = inflater.inflate(R.layout.vismote_layout, container, false);
         if( motevindu != null) {
-            /*WebView script = (WebView) motevindu.findViewById(R.id.visscript);
-            File imgFile= new File("file:///android_asset/" +scriptnavn);
-            script.loadUrl("file:///android_asset/" +scriptnavn);
-
-             */
             DBHandler db = new DBHandler(getActivity());
             db.getWritableDatabase();
             Møte møte = db.finnMøte(id);
