@@ -21,7 +21,7 @@ public class KontaktActivity extends AppCompatActivity implements KontaktListeFr
 
     DBHandler db;
 
-    public void idEndret(String innhold) {
+    public void idKontaktEndret(String innhold) {
         if(findViewById(R.id.scriptfragmentkontakt) != null) {
             VisKontaktFragment visscript= (VisKontaktFragment) getSupportFragmentManager().findFragmentById(R.id.scriptfragmentkontakt);
             if(visscript== null) {
@@ -82,10 +82,6 @@ public class KontaktActivity extends AppCompatActivity implements KontaktListeFr
             case R.id.preferanser:
                 Intent ipreferanser = new Intent(this,SettPreferanser.class);
                 startActivity(ipreferanser);
-                break;
-            case R.id.leggTilMote:
-                Intent inyttMote = new Intent(this,MøteActivity.class);
-                startActivity(inyttMote);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
