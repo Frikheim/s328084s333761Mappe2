@@ -29,10 +29,6 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mote_layout);
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.moteToolbar);
-
-        myToolbar.inflateMenu(R.menu.motemeny);
-        setActionBar(myToolbar);
 
         typeinn = findViewById(R.id.typeinn);
         stedinn = findViewById(R.id.stedinn);
@@ -44,7 +40,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         db.getWritableDatabase();
 
         final ArrayList<String> list = db.kontaktListe();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_multiple_choice, list);
         deltakerListe.setAdapter(adapter);
         deltakerListe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -49,11 +49,6 @@ public class KontaktActivity extends AppCompatActivity implements KontaktListeFr
         db = new DBHandler(this);
         db.getWritableDatabase();
 
-
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.minToolbar);
-
-        myToolbar.inflateMenu(R.menu.hovedmeny);
-        setActionBar(myToolbar);
     }
 
 

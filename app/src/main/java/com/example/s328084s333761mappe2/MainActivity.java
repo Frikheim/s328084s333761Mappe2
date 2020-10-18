@@ -105,12 +105,11 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         startService();
     }
     void openFragment(Fragment fragment){
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.frameLayout, fragment);
-    fragmentTransaction.addToBackStack(null);
-    fragmentTransaction.commit();
-
-}
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
     public void startService() {
         Intent intent = new Intent();
@@ -149,6 +148,19 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         }
     }
 
+    public void leggTil(View v) {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        int id = navView.getSelectedItemId();
+
+        if(id == R.id.navigation_moter) {
+            Intent imote = new Intent(this,MøteActivity.class);
+            startActivity(imote);
+        }
+        else if(id == R.id.navigation_kontakter) {
+            Intent ikontakt = new Intent(this,LeggTilKontaktActivity.class);
+            startActivity(ikontakt);
+        }
+    }
     /*@Override
     protected void onPostResume() {
         super.onPostResume();

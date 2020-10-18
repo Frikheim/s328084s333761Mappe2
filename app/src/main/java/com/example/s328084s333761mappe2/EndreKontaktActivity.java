@@ -29,10 +29,6 @@ public class EndreKontaktActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.endre_kontakt_layout);
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.moteToolbar);
-
-        myToolbar.inflateMenu(R.menu.kontaktmeny);
-        setActionBar(myToolbar);
 
         //får inn id til møte som skal endres
         Intent i = this.getIntent();
@@ -70,32 +66,6 @@ public class EndreKontaktActivity extends AppCompatActivity {
             db.oppdaterKontakt(endretKontakt);
             finish();
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.kontaktmeny, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.kontakter:
-                Intent ikontakter = new Intent(this, LeggTilKontaktActivity.class);
-                startActivity(ikontakter);
-                finish();
-                break;
-            case R.id.preferanser:
-                Intent ipreferanser = new Intent(this,SettPreferanser.class);
-                startActivity(ipreferanser);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
     }
 
 }
