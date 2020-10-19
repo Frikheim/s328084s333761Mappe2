@@ -61,10 +61,11 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        final BottomNavigationView navView = findViewById(R.id.nav_view);
 
         Fragment startFragment = new ListeFragment();
         openFragment(startFragment);
+        setTitle(getString(R.string.møter));
 
 
 
@@ -77,16 +78,19 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
                     case R.id.navigation_moter:
                         Fragment moterFragment = new ListeFragment();
                         openFragment(moterFragment);
+                        setTitle(getString(R.string.møter));
                         return true;
 
                     case R.id.navigation_kontakter:
                         Fragment kontakterFragment = new KontaktListeFragment();
                         openFragment(kontakterFragment);
+                        setTitle(getString(R.string.kontakter));
                         return true;
 
                     case R.id.navigation_preferanser:
                         Fragment preferanserFragment = new PreferanserFragment();
                         openFragment(preferanserFragment);
+                        setTitle(getString(R.string.preferanser));
                         return true;
                 }
 
