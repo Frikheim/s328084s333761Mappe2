@@ -4,16 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <TextView
-        android:id="@+id/møteView"
+        android:id="@+id/visId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/visType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/visSted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/visTidspunkt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/visDato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/visDeltakere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deltakere">
 
     </TextView>
     <ListView
         android:id="@+id/deltakerListeView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
     </ListView>
 

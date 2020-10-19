@@ -21,10 +21,8 @@ public class LeggTilKontaktActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kontakt_layout);
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.kontaktToolbar);
 
-        myToolbar.inflateMenu(R.menu.kontaktmeny);
-        setActionBar(myToolbar);
+        setTitle(R.string.leggTil);
 
         navninn = (EditText) findViewById(R.id.navninn);
         telefoninn = (EditText) findViewById(R.id.telefoninn);

@@ -5,13 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Toolbar
-        android:id="@+id/moteToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorAccent"
-        android:title="@string/møter"
-        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

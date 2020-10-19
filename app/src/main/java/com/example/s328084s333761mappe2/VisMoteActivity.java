@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 public class VisMoteActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.møter);
         Intent i = this.getIntent();
         String bnavn= i.getExtras().getString("moteid");
         VisMoteFragment vismote=new VisMoteFragment();

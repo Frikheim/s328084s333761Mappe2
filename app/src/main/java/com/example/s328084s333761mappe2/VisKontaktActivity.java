@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 public class VisKontaktActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.kontakter);
         Intent i = this.getIntent();
         String bnavn= i.getExtras().getString("kontaktnavn");
         DBHandler db = new DBHandler(this);

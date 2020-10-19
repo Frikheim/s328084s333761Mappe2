@@ -30,6 +30,8 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mote_layout);
 
+        setTitle(R.string.leggTilMøte);
+
         typeinn = findViewById(R.id.typeinn);
         stedinn = findViewById(R.id.stedinn);
         datoBoks = findViewById(R.id.datoBoks);

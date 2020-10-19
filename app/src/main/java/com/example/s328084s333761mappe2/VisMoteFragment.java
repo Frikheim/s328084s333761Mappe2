@@ -30,13 +30,16 @@ public class VisMoteFragment extends Fragment {
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View motevindu = inflater.inflate(R.layout.vismote_layout, container, false);
+
         if( motevindu != null) {
             DBHandler db = new DBHandler(getActivity());
             db.getWritableDatabase();
+            //finner møte og setter info
             Møte møte = db.finnMøte(id);
             TextView boks = motevindu.findViewById(R.id.møteView);
             Log.d("boks",møte.toString());
             boks.setText(møte.toString());
+
             ListView liste = motevindu.findViewById(R.id.deltakerListeView);
             List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
 
