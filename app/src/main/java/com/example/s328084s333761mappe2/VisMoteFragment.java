@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VisMoteFragment extends Fragment {
-    private int id;
+    private String id;
 
-    public void init(String id) { this.id = Integer.parseInt(id);
+    public void init(String id) { this.id = id;
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
@@ -35,10 +35,16 @@ public class VisMoteFragment extends Fragment {
             DBHandler db = new DBHandler(getActivity());
             db.getWritableDatabase();
             //finner møte og setter info
-            Møte møte = db.finnMøte(id);
-            TextView boks = motevindu.findViewById(R.id.møteView);
-            Log.d("boks",møte.toString());
-            boks.setText(møte.toString());
+            Møte møte = db.finnMøte(Integer.parseInt(id));
+            TextView type = motevindu.findViewById(R.id.visType);
+            TextView sted = motevindu.findViewById(R.id.visSted);
+            TextView tidspunkt = motevindu.findViewById(R.id.visTidspunkt);
+            TextView dato = motevindu.findViewById(R.id.visDato);
+            Log.d("visMøte",møte.toString());
+            type.setText(møte.getType());
+            sted.setText(møte.getSted());
+            tidspunkt.setText(møte.getTidspunkt());
+            dato.setText(møte.getDato());
 
             ListView liste = motevindu.findViewById(R.id.deltakerListeView);
             List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
@@ -52,14 +58,9 @@ public class VisMoteFragment extends Fragment {
             endreMøte.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick( View view) {
                     View foreldre = (View) view.getParent().getParent();
-                    TextView textboks = foreldre.findViewById(R.id.møteView);
-                    Log.d("tekstboks","");
-                    String boksInnhold = textboks.getText().toString();
-                    String[] splittet = boksInnhold.split(":");
-                    Long id = Long.parseLong(splittet[0]);
                     Intent endreMote = new Intent(foreldre.getContext(),EndreMøteActivity.class);
                     endreMote.putExtra("endremoteid", id);
-                    Log.d("id",id.toString());
+                    Log.d("id",id);
                     startActivity(endreMote);
 
                     getActivity().onBackPressed();
@@ -69,14 +70,10 @@ public class VisMoteFragment extends Fragment {
             Button slettMøte = motevindu.findViewById(R.id.slettMøte);
             slettMøte.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick( View view) {
-                    View foreldre = (View) view.getParent().getParent();
-                    TextView textboks = foreldre.findViewById(R.id.møteView);
-                    String boksInnhold = textboks.getText().toString();
-                    String[] splittet = boksInnhold.split(":");
-                    Long id = Long.parseLong(splittet[0]);
+
                     DBHandler db = new DBHandler(getActivity());
                     db.getWritableDatabase();
-                    db.slettMøte(id);
+                    db.slettMøte(Long.parseLong(id));
 
                     getActivity().onBackPressed();
                 }
@@ -86,24 +83,23 @@ public class VisMoteFragment extends Fragment {
     }
 
     public void updateUrl(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        Møte møte = db.finnMøte(this.id);
-        TextView boks = getView().findViewById(R.id.møteView);
-        boks.setText(møte.toString());
+        Møte møte = db.finnMøte(Integer.parseInt(this.id));
+        TextView type = getView().findViewById(R.id.visType);
+        TextView sted = getView().findViewById(R.id.visSted);
+        TextView tidspunkt = getView().findViewById(R.id.visTidspunkt);
+        TextView dato = getView().findViewById(R.id.visDato);
+        Log.d("visMøte",møte.toString());
+        type.setText(møte.getType());
+        sted.setText(møte.getSted());
+        tidspunkt.setText(møte.getTidspunkt());
+        dato.setText(møte.getDato());
         ListView liste = getView().findViewById(R.id.deltakerListeView);
         List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
         final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         liste.setAdapter(adapter);
-    }
-
-    public void endreMøte(View v) {
-
-    }
-
-    public void slettMøte(View v) {
-
     }
 }
