@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,7 +68,7 @@ public class VisMoteFragment extends Fragment {
                 }
             });
 
-            Button slettMøte = motevindu.findViewById(R.id.slettMøte);
+            ImageButton slettMøte = motevindu.findViewById(R.id.slettMøte);
             slettMøte.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick( View view) {
 

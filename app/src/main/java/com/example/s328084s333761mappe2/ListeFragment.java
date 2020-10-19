@@ -42,13 +42,15 @@ public class ListeFragment extends Fragment {
         ListView lv = (ListView) v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        final ArrayList<String> list = db.møteListe();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
+        final ArrayList<Møte> møteListe = db.finnAlleMøter();
+        //final ArrayList<String> list = db.møteListe();
+        final MoteAdapter adapter = new MoteAdapter(getContext(),møteListe);
+        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String data = adapter.getItem(i);
-                listener.idEndret(data);
+                Møte data = adapter.getItem(i);
+                listener.idEndret(data.get_ID().toString());
             }
         });
         return v;
@@ -58,13 +60,23 @@ public class ListeFragment extends Fragment {
         ListView lv = (ListView) v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        final ArrayList<String> list = db.møteListe();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
+        final ArrayList<Møte> møteListe = db.finnAlleMøter();
+        //final ArrayList<String> list = db.møteListe();
+        final MoteAdapter adapter = new MoteAdapter(getContext(),møteListe);
+        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String data = adapter.getItem(i);listener.idEndret(data);
+                Møte data = adapter.getItem(i);
+                listener.idEndret(data.get_ID().toString());
             }
         });
     }
-} 
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        oppdater();
+    }
+}

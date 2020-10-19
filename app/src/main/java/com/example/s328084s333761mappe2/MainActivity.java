@@ -165,16 +165,4 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
             startActivity(ikontakt);
         }
     }
-    /*@Override
-    protected void onPostResume() {
-        super.onPostResume();
-        ListeFragment liste = (ListeFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.listefragment);
-        liste.oppdater();
-    }
-
-     */
-
-
-
 }

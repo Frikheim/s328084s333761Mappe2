@@ -141,8 +141,8 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontaktListe;
     }
 
-    public List<Møte> finnAlleMøter() {
-        List<Møte> møteListe = new ArrayList<Møte>();
+    public ArrayList<Møte> finnAlleMøter() {
+        ArrayList<Møte> møteListe = new ArrayList<Møte>();
         String selectQuery = "SELECT * FROM " + TABLE_MOTER;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);

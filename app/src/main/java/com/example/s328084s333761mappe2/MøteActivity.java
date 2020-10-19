@@ -97,6 +97,16 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
             editor.putString(getString(R.string.velgDato),"");
             editor.putString(getString(R.string.velgTidspunkt),"");
             editor.apply();
+            String[] splittet = tid.split(":");
+            if(Integer.parseInt(splittet[0]) < 10 && Integer.parseInt(splittet[1]) < 10) {
+                tid = "0" + splittet[0] +":0" + splittet[1];
+            }
+            else if(Integer.parseInt(splittet[0]) < 10) {
+                tid = "0" + splittet[0] +":" + splittet[1];
+            }
+            else if(Integer.parseInt(splittet[1]) < 10) {
+                tid = splittet[0] +":0" + splittet[1];
+            }
             Møte møte = new Møte(type, sted, dato, tid);
             db.leggTilMøte(møte);
 
@@ -109,6 +119,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
                 Log.d("navn",møteDeltakelse.getDeltaker_ID().toString());
                 db.leggTilMøteDeltakelse(møteDeltakelse);
             }
+
             finish();
         }
 
@@ -146,27 +157,21 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.kontakter:
-                Intent ikontakter = new Intent(this, LeggTilKontaktActivity.class);
-                startActivity(ikontakter);
-                finish();
-                break;
-            case R.id.preferanser:
-                Intent ipreferanser = new Intent(this,SettPreferanser.class);
-                startActivity(ipreferanser);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
 
     @Override
     public void onDialogDismissListener() {
-        tidBoks.setText(prefs.getString(getString(R.string.velgTidspunkt),""));
+        String tidspunkt = prefs.getString(getString(R.string.velgTidspunkt),"");
+        if(!tidspunkt.equals("")) {
+            String[] splittet = tidspunkt.split(":");
+            if (Integer.parseInt(splittet[0]) < 10 && Integer.parseInt(splittet[1]) < 10) {
+                tidspunkt = "0" + splittet[0] + ":0" + splittet[1];
+            } else if (Integer.parseInt(splittet[0]) < 10) {
+                tidspunkt = "0" + splittet[0] + ":" + splittet[1];
+            } else if (Integer.parseInt(splittet[1]) < 10) {
+                tidspunkt = splittet[0] + ":0" + splittet[1];
+            }
+        }
+        tidBoks.setText(tidspunkt);
         datoBoks.setText(prefs.getString(getString(R.string.velgDato),""));
     }
 }
