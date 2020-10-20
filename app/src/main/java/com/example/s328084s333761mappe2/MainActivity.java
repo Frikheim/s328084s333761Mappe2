@@ -34,26 +34,11 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
     DBHandler db;
 
     public void idEndret(String innhold) {
-        String[] splittet = innhold.split(":");
-        String id = splittet[0];
-        if(findViewById(R.id.scriptfragment) != null) {
-            VisMoteFragment visscript= (VisMoteFragment) getSupportFragmentManager().findFragmentById(R.id.scriptfragment);
-            if(visscript== null) {
-                visscript= new VisMoteFragment();
-                visscript.init(id);
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction trans = fm.beginTransaction();
-                trans.replace(R.id.listefragment, visscript);
-                trans.commit();
-            }
-            else{
-                visscript.updateUrl(id);
-            }
-        } else {
-            Intent i = new Intent(this, VisMoteActivity.class);
-            i.putExtra("moteid", id);
-            startActivity(i);
-        }
+
+        Intent i = new Intent(this, VisMoteActivity.class);
+        i.putExtra("moteid", innhold);
+        startActivity(i);
+
     }
 
 
@@ -132,24 +117,11 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
 
     @Override
     public void idKontaktEndret(String innhold) {
-        if(findViewById(R.id.scriptfragmentkontakt) != null) {
-            VisKontaktFragment visscript= (VisKontaktFragment) getSupportFragmentManager().findFragmentById(R.id.scriptfragmentkontakt);
-            if(visscript== null) {
-                visscript= new VisKontaktFragment();
-                visscript.init(innhold);
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction trans = fm.beginTransaction();
-                trans.replace(R.id.listefragmentkontakt, visscript);
-                trans.commit();
-            }
-            else{
-                visscript.updateUrl(innhold);
-            }
-        } else {
-            Intent i = new Intent(this, VisKontaktActivity.class);
-            i.putExtra("kontaktnavn", innhold);
-            startActivity(i);
-        }
+
+        Intent i = new Intent(this, VisKontaktActivity.class);
+        i.putExtra("kontaktnavn", innhold);
+        startActivity(i);
+
     }
 
     public void leggTil(View v) {

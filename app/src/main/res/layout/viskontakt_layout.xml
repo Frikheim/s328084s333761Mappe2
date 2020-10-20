@@ -7,12 +7,18 @@
     <TextView
         android:id="@+id/visNavn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
     </TextView>
     <TextView
         android:id="@+id/visTelefon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
     </TextView>
 
     <LinearLayout
@@ -33,7 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_delete" />
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_delete"
+            android:tint="#000000" />
     </LinearLayout>
 
 </LinearLayout>

@@ -9,38 +9,54 @@
     <TextView
         android:id="@+id/visType"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
 
     </TextView>
     <TextView
         android:id="@+id/visSted"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
 
     </TextView>
     <TextView
         android:id="@+id/visTidspunkt"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
 
     </TextView>
     <TextView
         android:id="@+id/visDato"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
 
     </TextView>
     <TextView
         android:id="@+id/visDeltakere"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/deltakere">
+        android:text="@string/deltakere"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/black">
 
     </TextView>
     <ListView
         android:id="@+id/deltakerListeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         >
 
     </ListView>
@@ -65,7 +81,8 @@
             android:layout_weight="1"
             android:background="@null"
 
-            android:src="@android:drawable/ic_menu_delete" />
+            android:src="@android:drawable/ic_menu_delete"
+            android:tint="#070707" />
     </LinearLayout>
 
 </LinearLayout>

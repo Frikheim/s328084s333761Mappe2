@@ -33,10 +33,10 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
 
         //får inn id til møte som skal endres
         Intent i = this.getIntent();
-        Long motedId= i.getExtras().getLong("endremoteid");
+        String motedId= i.getExtras().getString("endremoteid");
         db = new DBHandler(this);
         db.getWritableDatabase();
-        møte = db.finnMøte(motedId.intValue());
+        møte = db.finnMøte(Integer.parseInt(motedId));
         //gir feltene de originale verdiene
         typeinn = findViewById(R.id.typeinn);
         typeinn.setText(møte.getType());
@@ -122,6 +122,7 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
                 Log.d("navn",møteDeltakelse.getDeltaker_ID().toString());
                 db.leggTilMøteDeltakelse(møteDeltakelse);
             }
+            finish();
         }
 
         Log.d("Legg inn: ", "legger til møter");

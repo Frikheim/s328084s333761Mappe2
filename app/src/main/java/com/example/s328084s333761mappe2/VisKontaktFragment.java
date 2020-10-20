@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,19 +34,17 @@ public class VisKontaktFragment extends Fragment {
             DBHandler db = new DBHandler(getActivity());
             db.getWritableDatabase();
             Kontakt kontakt = db.finnKontakt(navn);
-            TextView boks = kontaktvindu.findViewById(R.id.kontaktView);
+            TextView visNavn = kontaktvindu.findViewById(R.id.visNavn);
+            TextView visTelefon = kontaktvindu.findViewById(R.id.visTelefon);
             Log.d("boks",kontakt.toString());
-            boks.setText(kontakt.toString());
+            visNavn.setText(kontakt.getNavn());
+            visTelefon.setText(kontakt.getTelefon());
 
 
             Button endreKontakt = kontaktvindu.findViewById(R.id.endreKontakt);
             endreKontakt.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick( View view) {
                     View foreldre = (View) view.getParent().getParent();
-                    TextView textboks = foreldre.findViewById(R.id.kontaktView);
-                    String boksInnhold = textboks.getText().toString();
-                    String[] splittet = boksInnhold.split(":");
-                    String navn = splittet[0];
                     Intent endreKontakt = new Intent(foreldre.getContext(),EndreKontaktActivity.class);
                     endreKontakt.putExtra("endrekontaktnavn", navn);
                     startActivity(endreKontakt);
@@ -54,14 +53,10 @@ public class VisKontaktFragment extends Fragment {
                 }
             });
 
-            Button slettKontakt = kontaktvindu.findViewById(R.id.slettKontakt);
+            ImageButton slettKontakt = kontaktvindu.findViewById(R.id.slettKontakt);
             slettKontakt.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick( View view) {
-                    View foreldre = (View) view.getParent().getParent();
-                    TextView textboks = foreldre.findViewById(R.id.kontaktView);
-                    String boksInnhold = textboks.getText().toString();
-                    String[] splittet = boksInnhold.split(":");
-                    String navn = splittet[0];
+
                     DBHandler db = new DBHandler(getActivity());
                     db.getWritableDatabase();
                     db.slettKontakt(navn);
@@ -78,8 +73,10 @@ public class VisKontaktFragment extends Fragment {
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
         Kontakt kontakt = db.finnKontakt(this.navn);
-        TextView boks = getView().findViewById(R.id.kontaktView);
-        boks.setText(kontakt.toString());
+        TextView visNavn = getView().findViewById(R.id.visNavn);
+        TextView visTelefon = getView().findViewById(R.id.visTelefon);
+        visNavn.setText(kontakt.getNavn());
+        visTelefon.setText(kontakt.getTelefon());
     }
 
 }

@@ -11,12 +11,10 @@
     <string name="klokkeslett_summary">Velg tidspunkt for møtevarsel</string>
     <string name="klokkeslett_default">8</string>
     <string name="møter_notif">Møter i dag</string>
-    <string name="innNavn">Skriv inn navn:</string>
-    <string name="innTlf">Skriv inn telefonnummer:</string>
-    <string name="innId">Skriv inn ID:</string>
-    <string name="innType">Skriv inn type:</string>
-    <string name="innSted">Skriv inn sted:</string>
-    <string name="innTidspunkt">Skriv inn tidspunkt:</string>
+    <string name="innNavn">Navn</string>
+    <string name="innTlf">Telefonnummer</string>
+    <string name="innType">Type møte</string>
+    <string name="innSted">Sted</string>
     <string name="leggTil">Legg til</string>
     <string name="slett">Slett</string>
     <string name="visAlle">Vis alle</string>

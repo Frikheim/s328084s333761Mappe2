@@ -39,29 +39,9 @@ public class LeggTilKontaktActivity extends AppCompatActivity {
         Kontakt kontakt = new Kontakt(navninn.getText().toString(),telefoninn.getText().toString());
         db.leggTilKontakt(kontakt);
         Log.d("Legg inn: ", "legger til kontakter");
+        finish();
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.kontaktmeny, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.møter:
-                finish();
-                break;
-            case R.id.preferanser:
-                Intent ipreferanser = new Intent(this,SettPreferanser.class);
-                startActivity(ipreferanser);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
 }
