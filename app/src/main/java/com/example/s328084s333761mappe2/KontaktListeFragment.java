@@ -58,12 +58,15 @@ public class KontaktListeFragment extends Fragment {
         ListView lv = (ListView) v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        final ArrayList<String> list = db.kontaktListe();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
+        final ArrayList<Kontakt> list = db.finnAlleKontakter();
+        //final ArrayList<String> list = db.kontaktListe();
+        final KontaktAdapter adapter = new KontaktAdapter(getContext(),list);
+        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String data = adapter.getItem(i);listener.idKontaktEndret(data);
+                Kontakt data = adapter.getItem(i);
+                listener.idKontaktEndret(data.getNavn());
             }
         });
     }
