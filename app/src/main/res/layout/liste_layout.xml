@@ -20,7 +20,7 @@
             android:backgroundTint="#FFFFFF"
             android:onClick="leggTil"
             android:src="@android:drawable/ic_input_add"
-            android:tint="#8BC34A" />
+            android:tint="@color/kontaktblå" />
         <ListView
         android:id="@+id/liste"
 
