@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VisMoteFragment extends Fragment {
@@ -51,6 +52,7 @@ public class VisMoteFragment extends Fragment {
             List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
 
             final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
+            Collections.sort(list);
             Log.d("deltakerliste",list.get(0));
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
             liste.setAdapter(adapter);
@@ -83,24 +85,4 @@ public class VisMoteFragment extends Fragment {
         return motevindu;
     }
 
-    public void updateUrl(String id) {
-        this.id = id;
-        DBHandler db = new DBHandler(getActivity());
-        db.getWritableDatabase();
-        Møte møte = db.finnMøte(Integer.parseInt(this.id));
-        TextView type = getView().findViewById(R.id.visType);
-        TextView sted = getView().findViewById(R.id.visSted);
-        TextView tidspunkt = getView().findViewById(R.id.visTidspunkt);
-        TextView dato = getView().findViewById(R.id.visDato);
-        Log.d("visMøte",møte.toString());
-        type.setText(møte.getType());
-        sted.setText(møte.getSted());
-        tidspunkt.setText(møte.getTidspunkt());
-        dato.setText(møte.getDato());
-        ListView liste = getView().findViewById(R.id.deltakerListeView);
-        List<MøteDeltakelse> møteDeltakelse = db.finnMøteDeltakelseIMøte(møte.get_ID());
-        final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
-        liste.setAdapter(adapter);
-    }
 }

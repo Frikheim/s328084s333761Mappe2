@@ -42,13 +42,14 @@ public class KontaktListeFragment extends Fragment {
         ListView lv = (ListView) v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        final ArrayList<String> list = db.kontaktListe();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
+        ArrayList<Kontakt> kontakter = db.finnAlleKontakter();
+        final ArrayList<Kontakt> list = sortertKontaktliste(kontakter);
+        final KontaktAdapter adapter = new KontaktAdapter(getContext(),list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String data = adapter.getItem(i);
-                listener.idKontaktEndret(data);
+                Kontakt data = adapter.getItem(i);
+                listener.idKontaktEndret(data.getNavn());
             }
         });
         return v;
@@ -58,7 +59,8 @@ public class KontaktListeFragment extends Fragment {
         ListView lv = (ListView) v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
-        final ArrayList<Kontakt> list = db.finnAlleKontakter();
+        ArrayList<Kontakt> kontakter = db.finnAlleKontakter();
+        final ArrayList<Kontakt> list = sortertKontaktliste(kontakter);
         //final ArrayList<String> list = db.kontaktListe();
         final KontaktAdapter adapter = new KontaktAdapter(getContext(),list);
         //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
@@ -75,5 +77,30 @@ public class KontaktListeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         oppdater();
+    }
+
+    public ArrayList<Kontakt> sortertKontaktliste(ArrayList<Kontakt> kontakter) {
+        ArrayList<Kontakt> sortertListe = new ArrayList<>();
+        sortertListe.add(kontakter.get(0));
+
+        for(int i = 1; i < kontakter.size(); i++) {
+            for(int j = 0; j < sortertListe.size(); j++) {
+                if(sortertListe.get(j).getNavn().equals(kontakter.get(i).getNavn())) {
+                    sortertListe.add(kontakter.get(i));
+                    break;
+                }
+                else if(sortertListe.get(j).getNavn().compareTo(kontakter.get(i).getNavn()) > 0) {
+                    sortertListe.add(j,kontakter.get(i));
+                    break;
+                }
+                else {
+                    if((sortertListe.size() - j) == 1) {
+                        sortertListe.add(kontakter.get(i));
+                        break;
+                    }
+                }
+            }
+        }
+        return sortertListe;
     }
 }
