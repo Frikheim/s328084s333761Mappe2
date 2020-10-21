@@ -45,9 +45,6 @@ public class ListeFragment extends Fragment {
         db.getWritableDatabase();
         ArrayList<Møte> møter = db.finnAlleMøter();
         final ArrayList<Møte> møteListe = sorterMøter(møter);
-        for (Møte møte: møteListe) {
-            Log.d("TAG",møte.getDato());
-        }
         //final ArrayList<String> list = db.møteListe();
         final MoteAdapter adapter = new MoteAdapter(getContext(),møteListe);
         //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
@@ -94,15 +91,12 @@ public class ListeFragment extends Fragment {
         for (int i = 1; i < møter.size(); i++) {
             leter = true;
             String dato = møter.get(i).getDato();
-            Log.d("TAG",dato);
             String[] splittet = dato.split("\\.");
             int dag = Integer.parseInt(splittet[0]);
             int måned = Integer.parseInt(splittet[1]);
             int år = Integer.parseInt(splittet[2]);
             int plassering = 0;
-            Log.d("TAG", "Nå sorterer vi " + i);
             while(leter) {
-                Log.d("TAG", "Nå er vi på plassering " + plassering);
                 String datoSortert = sortertListe.get(plassering).getDato();
                 String[] splittetSortert = datoSortert.split("\\.");
                 int dagSortert = Integer.parseInt(splittetSortert[0]);
@@ -153,13 +147,11 @@ public class ListeFragment extends Fragment {
                             plassering++;
                             if(plassering == sortertListe.size()) {
                                 sortertListe.add(møter.get(i));
-                                Log.d("TAG", "Ble plassert etter");
                                 leter = false;
                             }
                         }
                         else {
                             sortertListe.add(plassering,møter.get(i));
-                            Log.d("TAG", "Ble plassert før");
                             leter = false;
                         }
                     }

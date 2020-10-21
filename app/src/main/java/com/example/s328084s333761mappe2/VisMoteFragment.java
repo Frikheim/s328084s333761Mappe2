@@ -42,7 +42,6 @@ public class VisMoteFragment extends Fragment {
             TextView sted = motevindu.findViewById(R.id.visSted);
             TextView tidspunkt = motevindu.findViewById(R.id.visTidspunkt);
             TextView dato = motevindu.findViewById(R.id.visDato);
-            Log.d("visMøte",møte.toString());
             type.setText(møte.getType());
             sted.setText(møte.getSted());
             tidspunkt.setText(møte.getTidspunkt());
@@ -53,7 +52,6 @@ public class VisMoteFragment extends Fragment {
 
             final ArrayList<String> list = db.deltakerListe(møteDeltakelse);
             Collections.sort(list);
-            Log.d("deltakerliste",list.get(0));
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
             liste.setAdapter(adapter);
 
@@ -63,7 +61,6 @@ public class VisMoteFragment extends Fragment {
                     View foreldre = (View) view.getParent().getParent();
                     Intent endreMote = new Intent(foreldre.getContext(),EndreMøteActivity.class);
                     endreMote.putExtra("endremoteid", id);
-                    Log.d("id",id);
                     startActivity(endreMote);
 
                     getActivity().onBackPressed();
