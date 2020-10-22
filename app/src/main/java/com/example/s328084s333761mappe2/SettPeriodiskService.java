@@ -33,6 +33,7 @@ public class SettPeriodiskService extends Service {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
+        Log.d("TAG",String.valueOf(cal.getTimeInMillis()));
         return super.onStartCommand(intent, flags, startId);
     }
 }

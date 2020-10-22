@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.annotation.Nullable;
@@ -17,9 +18,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        final Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
+        Log.d("TAG", "Måned: " + month);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
@@ -29,6 +31,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         SharedPreferences.Editor editor = prefs.edit();
+        month += 1;
         editor.putString(getString(R.string.velgDato),day + "." + month + "." + year);
         editor.apply();
         mCallback.onDialogDismissListener();

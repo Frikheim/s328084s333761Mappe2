@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
@@ -42,6 +43,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         db.getWritableDatabase();
 
         final ArrayList<String> list = db.kontaktListe();
+        Collections.sort(list);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_multiple_choice, list);
         deltakerListe.setAdapter(adapter);
         deltakerListe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,15 +99,26 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
             editor.putString(getString(R.string.velgDato),"");
             editor.putString(getString(R.string.velgTidspunkt),"");
             editor.apply();
-            String[] splittet = tid.split(":");
-            if(Integer.parseInt(splittet[0]) < 10 && Integer.parseInt(splittet[1]) < 10) {
-                tid = "0" + splittet[0] +":0" + splittet[1];
+            String[] splittetTid = tid.split(":");
+            if(Integer.parseInt(splittetTid[0]) < 10 && Integer.parseInt(splittetTid[1]) < 10) {
+                tid = "0" + splittetTid[0] +":0" + splittetTid[1];
             }
-            else if(Integer.parseInt(splittet[0]) < 10) {
-                tid = "0" + splittet[0] +":" + splittet[1];
+            else if(Integer.parseInt(splittetTid[0]) < 10) {
+                tid = "0" + splittetTid[0] +":" + splittetTid[1];
             }
-            else if(Integer.parseInt(splittet[1]) < 10) {
-                tid = splittet[0] +":0" + splittet[1];
+            else if(Integer.parseInt(splittetTid[1]) < 10) {
+                tid = splittetTid[0] +":0" + splittetTid[1];
+            }
+
+            String[] splittetDato = dato.split("\\.");
+            if(Integer.parseInt(splittetDato[0]) < 10 && Integer.parseInt(splittetDato[1]) < 10) {
+                dato = "0" + splittetDato[0] + ".0" + splittetDato[1] + "." + splittetDato[2];
+            }
+            else if(Integer.parseInt(splittetDato[0]) < 10) {
+                dato = "0" + splittetDato[0] +"." + splittetDato[1] + "." + splittetDato[2];
+            }
+            else if(Integer.parseInt(splittetDato[1]) < 10) {
+                dato = splittetDato[0] + ".0" + splittetDato[1] + "." + splittetDato[2];
             }
             Møte møte = new Møte(type, sted, dato, tid);
             db.leggTilMøte(møte);
