@@ -17,28 +17,29 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
+        // Bruker dagens dato som default dato i velgeren
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         Log.d("TAG", "Måned: " + month);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
+    //Metode for å lagre datoen når en bruker velger en dato
     public void onDateSet(DatePicker view, int year, int month, int day) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         SharedPreferences.Editor editor = prefs.edit();
-        month += 1;
+        month += 1; //Virker som Calendar-objektet bruker måneder fra 0 til 11, må derfor plusse på 1
         editor.putString(getString(R.string.velgDato),day + "." + month + "." + year);
+        //Putter datoen inn i SharedPreferences, slik at vi har tilgang til den overalt
         editor.apply();
         mCallback.onDialogDismissListener();
     }
 
     public interface OnDialogDismissListener {
-        public void onDialogDismissListener();
+        void onDialogDismissListener();
     }
 
     OnDialogDismissListener mCallback;
