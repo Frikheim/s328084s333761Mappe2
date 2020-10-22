@@ -2,20 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/endre"
-        android:icon="@android:drawable/ic_menu_save"
-        android:onClick="endre"
+        android:id="@+id/endreMøteAction"
+        android:icon="@android:drawable/ic_menu_edit"
 
         android:title=""
         app:showAsAction="always|collapseActionView" />
 
     <item
-        android:id="@+id/slett"
+        android:id="@+id/slettMøteAction"
         android:icon="@android:drawable/ic_menu_delete"
-        android:iconTint="@color/white"
 
-        android:onClick="slett"
         android:title=""
         app:showAsAction="ifRoom|collapseActionView" />
-
 </menu>

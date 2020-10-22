@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,8 +35,8 @@ public class VisKontaktFragment extends Fragment {
             DBHandler db = new DBHandler(getActivity());
             db.getWritableDatabase();
             Kontakt kontakt = db.finnKontakt(navn);
-            TextView visNavn = kontaktvindu.findViewById(R.id.visNavn);
-            TextView visTelefon = kontaktvindu.findViewById(R.id.visTelefon);
+            EditText visNavn = kontaktvindu.findViewById(R.id.visNavn);
+            EditText visTelefon = kontaktvindu.findViewById(R.id.visTelefon);
             Log.d("boks",kontakt.toString());
             visNavn.setText(kontakt.getNavn());
             visTelefon.setText(kontakt.getTelefon());
@@ -73,8 +74,8 @@ public class VisKontaktFragment extends Fragment {
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
         Kontakt kontakt = db.finnKontakt(this.navn);
-        TextView visNavn = getView().findViewById(R.id.visNavn);
-        TextView visTelefon = getView().findViewById(R.id.visTelefon);
+        EditText visNavn = getView().findViewById(R.id.visNavn);
+        EditText visTelefon = getView().findViewById(R.id.visTelefon);
         visNavn.setText(kontakt.getNavn());
         visTelefon.setText(kontakt.getTelefon());
     }

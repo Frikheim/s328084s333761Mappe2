@@ -1,7 +1,9 @@
 package com.example.s328084s333761mappe2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -30,12 +33,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements ListeFragment.MøteEndret, KontaktListeFragment.KontaktEndret {
 
     DBHandler db;
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
+    public Toolbar toolbarvismote;
+    public Toolbar toolbarendremote;
+    public Toolbar toolbarleggtilmote;
+    public Toolbar toolbarendrekontakt;
+    public Toolbar toolbarleggtilkontakt;
+    public ActionBar actionBarvismote;
+    public ActionBar actionBarendremote;
+    public ActionBar actionBarleggtilmote;
+    public ActionBar actionBarendrekontakt;
+    public ActionBar actionleggtilkontakt;
     public void idEndret(String innhold) {
 
         Intent i = new Intent(this, VisMoteActivity.class);
@@ -55,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         openFragment(startFragment);
         setTitle(getString(R.string.møter));
 
+        /*toolbarvismote = findViewById(R.id.hovedToolbar);
+        toolbarvismote.inflateMenu(R.menu.hovedmeny);
+        setSupportActionBar(toolbarvismote);
+        actionBarvismote = getSupportActionBar();
+        actionBarvismote.
+
+         */
 
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -162,4 +183,6 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
             startActivity(ikontakt);
         }
     }
+
+
 }
