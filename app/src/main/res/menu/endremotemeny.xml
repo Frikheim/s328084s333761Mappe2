@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/leggtil"
+        android:icon="?android:attr/textCheckMark"
+        android:title=""
+        android:iconTint="@color/black"
+        android:iconTintMode="src_atop"
+        android:onClick="endre"
+        app:showAsAction="always|collapseActionView" />
+</menu>
