@@ -37,6 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //Oppretter tabellene i databasen
         String LAG_TABELL_KONTAKTER = "CREATE TABLE " + TABLE_KONTAKTER + "(" + KEY_ID_KONTAKT +
                 " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PH_NO +
                 " TEXT" + ")";
@@ -56,6 +57,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(LAG_TABELL_MØTEDELTAKELSE);
     }
 
+    //Dersom databaseversjonen endrer seg kjøres onUpgrade og vi sletter gamle tabeller og oppretter nye i onCreate
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTE_DELTAKELSE);
@@ -67,20 +69,23 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //ContentProvider
 
+    //Metode for ContentProvider til å hente én kontakt
     public Cursor contentProviderHentEn(Uri uri, String[] projection, String[] selectionArgs, String sortOrder) {
-        Cursor cur= null;
+        Cursor cur;
         SQLiteDatabase db = this.getWritableDatabase();
         cur= db.query(TABLE_KONTAKTER, projection, KEY_ID_KONTAKT + "=" + uri.getPathSegments().get(1), selectionArgs, null, null, sortOrder);
         return cur;
     }
 
+    //Metode for ContentProvider til å hente alle kontakter
     public Cursor contentProviderHentAlle() {
-        Cursor cur= null;
+        Cursor cur;
         SQLiteDatabase db = this.getWritableDatabase();
         cur= db.query(TABLE_KONTAKTER, null, null, null, null, null, null);
         return cur;
     }
 
+    //Metode for ContentProvider til å legge til en kontakt
     public Cursor contentProviderLeggTil(ContentValues values) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_KONTAKTER, null, values);
@@ -88,15 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return c;
     }
 
-    public ArrayList<String> møteListe() {
-        ArrayList<String> møteListe = new ArrayList<String>();
-        List<Møte> møter = finnAlleMøter();
-        for (Møte møte: møter ) {
-            møteListe.add(møte.toString());
-        }
-        return møteListe;
-    }
-
+    //Metode som finner tar inn en liste med MøteDeltakelse og returnerer en liste med navnene til alle deltakerne
     public ArrayList<String> deltakerListe(List<MøteDeltakelse> deltakere) {
         ArrayList<String> deltakerListe = new ArrayList<>();
 
@@ -107,6 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return deltakerListe;
     }
 
+    //Metode som finner alle kontakter og returnerer en liste med alle kontakter
     public ArrayList<String> kontaktListe() {
         ArrayList<String> kontaktListe = new ArrayList<String>();
         List<Kontakt> kontakter = finnAlleKontakter();
