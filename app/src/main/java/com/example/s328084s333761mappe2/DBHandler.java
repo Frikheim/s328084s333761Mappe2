@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.TimePicker;
 
@@ -62,6 +63,29 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTER);
 
         onCreate(db);
+    }
+
+    //ContentProvider
+
+    public Cursor contentProviderHentEn(Uri uri, String[] projection, String[] selectionArgs, String sortOrder) {
+        Cursor cur= null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        cur= db.query(TABLE_KONTAKTER, projection, KEY_ID_KONTAKT + "=" + uri.getPathSegments().get(1), selectionArgs, null, null, sortOrder);
+        return cur;
+    }
+
+    public Cursor contentProviderHentAlle() {
+        Cursor cur= null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        cur= db.query(TABLE_KONTAKTER, null, null, null, null, null, null);
+        return cur;
+    }
+
+    public Cursor contentProviderLeggTil(ContentValues values) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_KONTAKTER, null, values);
+        Cursor c = db.query(TABLE_KONTAKTER, null, null, null, null, null, null);
+        return c;
     }
 
     public ArrayList<String> møteListe() {

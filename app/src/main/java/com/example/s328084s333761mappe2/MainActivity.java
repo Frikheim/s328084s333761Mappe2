@@ -35,7 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements ListeFragment.MøteEndret, KontaktListeFragment.KontaktEndret {
 
     DBHandler db;
-
+    SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
     public void idEndret(String innhold) {
 
         Intent i = new Intent(this, VisMoteActivity.class);
@@ -92,6 +92,21 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         db.getWritableDatabase();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //bruk shared pref til å velge mellom leggtil og endre kontakt
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(getString(R.string.velgDato),"");
+        editor.putString(getString(R.string.velgTidspunkt),"");
+
+        //kjører startService når klokkeslettet for varsel og sms endres slik at pendingintentet oppdateres med det nye tiden
+        onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(getString(R.string.klokkeslett_nøkkel)))
+                {
+                    startService();
+                }
+
+            }
+        };
 
         int MY_PHONE_STATE_PERMISSION;
         int MY_PERMISSIONS_REQUEST_SEND_SMS;

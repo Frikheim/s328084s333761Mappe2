@@ -167,17 +167,28 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
     @Override
     public void onDialogDismissListener() {
         String tidspunkt = prefs.getString(getString(R.string.velgTidspunkt),"");
+        String datoboks = prefs.getString(getString(R.string.velgDato),"");
         if(!tidspunkt.equals("")) {
-            String[] splittet = tidspunkt.split(":");
-            if (Integer.parseInt(splittet[0]) < 10 && Integer.parseInt(splittet[1]) < 10) {
-                tidspunkt = "0" + splittet[0] + ":0" + splittet[1];
-            } else if (Integer.parseInt(splittet[0]) < 10) {
-                tidspunkt = "0" + splittet[0] + ":" + splittet[1];
-            } else if (Integer.parseInt(splittet[1]) < 10) {
-                tidspunkt = splittet[0] + ":0" + splittet[1];
+            String[] splittetTid = tidspunkt.split(":");
+            if (Integer.parseInt(splittetTid[0]) < 10 && Integer.parseInt(splittetTid[1]) < 10) {
+                tidspunkt = "0" + splittetTid[0] + ":0" + splittetTid[1];
+            } else if (Integer.parseInt(splittetTid[0]) < 10) {
+                tidspunkt = "0" + splittetTid[0] + ":" + splittetTid[1];
+            } else if (Integer.parseInt(splittetTid[1]) < 10) {
+                tidspunkt = splittetTid[0] + ":0" + splittetTid[1];
+            }
+        }
+        if(!datoboks.equals("")) {
+            String[] splittetDato = datoboks.split("\\.");
+            if (Integer.parseInt(splittetDato[0]) < 10 && Integer.parseInt(splittetDato[1]) < 10) {
+                datoboks = "0" + splittetDato[0] + ".0" + splittetDato[1] + "." + splittetDato[2];
+            } else if (Integer.parseInt(splittetDato[0]) < 10) {
+                datoboks = "0" + splittetDato[0] + "." + splittetDato[1] + "." + splittetDato[2];
+            } else if (Integer.parseInt(splittetDato[1]) < 10) {
+                datoboks = splittetDato[0] + ".0" + splittetDato[1] + "." + splittetDato[2];
             }
         }
         tidBoks.setText(tidspunkt);
-        datoBoks.setText(prefs.getString(getString(R.string.velgDato),""));
+        datoBoks.setText(datoboks);
     }
 }

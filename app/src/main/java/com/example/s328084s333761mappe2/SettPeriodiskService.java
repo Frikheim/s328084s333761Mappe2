@@ -29,7 +29,9 @@ public class SettPeriodiskService extends Service {
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String klokkeslett = prefs.getString(getString(R.string.klokkeslett_nøkkel),getString(R.string.klokkeslett_default));
+        Log.d("TAG",klokkeslett);
         cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(klokkeslett));
+        Log.d("TAG",cal.toString());
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);

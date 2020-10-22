@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="com.example.contentproviderkontakt.permission"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
+
+    </uses-permission>
+    <permission android:name="com.example.contentproviderkontakt.permission"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,29 +17,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BottomNavTest">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VisMoteActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".VisMoteActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".VisKontaktActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".VisKontaktActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".LeggTilKontaktActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".LeggTilKontaktActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".MøteActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".MøteActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".EndreMøteActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".EndreMøteActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".EndreKontaktActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".EndreKontaktActivity" android:screenOrientation="portrait">
 
         </activity>
 
@@ -46,6 +51,15 @@
         </receiver>
         <service android:name=".MinService" />
         <service android:name=".SettPeriodiskService" />
+
+        <provider android:name="com.example.s328084s333761mappe2.KontaktProvider"
+            android:authorities="com.example.contentproviderkontakt"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.example.contentproviderkontakt.permission"
+            android:writePermission="com.example.contentproviderkontakt.permission">
+
+        </provider>
 
     </application>
 
