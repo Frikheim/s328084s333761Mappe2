@@ -52,5 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="leggtil"
-        android:text="@string/leggTil"/>
+        android:text="@string/leggTil"
+        android:layout_marginHorizontal="130dp"/>
 </LinearLayout>

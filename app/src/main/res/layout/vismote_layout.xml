@@ -136,21 +136,24 @@
 
         <Button
             android:id="@+id/endreMøte"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/endreMøte"
+
+            android:layout_marginLeft="50dp"
             />
 
         <ImageButton
             android:id="@+id/slettMøte"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-
+            android:paddingTop="5dp"
             android:src="@android:drawable/ic_menu_delete"
-            android:tint="#070707" />
+            android:tint="#070707"
+            android:layout_marginRight="50dp"/>
     </LinearLayout>
 
 </LinearLayout>
