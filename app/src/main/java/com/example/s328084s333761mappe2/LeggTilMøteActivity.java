@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
+public class LeggTilMøteActivity extends AppCompatActivity implements DatePickerFragment.OnDialogDismissListener, TimePickerFragment.OnDialogDismissListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +85,7 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         super.onDestroy();
     }
 
-    public void leggtil(View v) {
+    public void leggtil() {
         dato = prefs.getString(getString(R.string.velgDato),"");
         tid = prefs.getString(getString(R.string.velgTidspunkt),"");
         String type = typeinn.getText().toString();
@@ -149,20 +149,6 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void slett(View v) {
-        Long møteid= (Long.parseLong(idinn.getText().toString()));
-        db.slettMøte(møteid);
-    }
-
-    public void oppdater(View v) {
-        Møte møte= new Møte();
-        møte.setType(typeinn.getText().toString());
-        møte.setSted(stedinn.getText().toString());
-        møte.setTidspunkt(tidinn.getText().toString());
-        møte.set_ID(Long.parseLong(idinn.getText().toString()));
-        db.oppdaterMøte(møte);
-    }
-
 
     @Override
     public void onDialogDismissListener() {
@@ -190,5 +176,42 @@ public class MøteActivity extends AppCompatActivity implements DatePickerFragme
         }
         tidBoks.setText(tidspunkt);
         datoBoks.setText(datoboks);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.leggtilmeny, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.leggTilAction:
+                leggtil();
+                /*
+                EditText navninn = findViewById(R.id.navninn);
+                EditText telefoninn = findViewById(R.id.telefoninn);
+
+                String navn = navninn.getText().toString();
+                String tlf = telefoninn.getText().toString();
+
+                if(dato == "" || tid == "" || type == "" || sted == "" || valgteDeltakere.isEmpty()) {
+                    Toast.makeText(getApplicationContext(),R.string.møteIkkeFyltUt, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Kontakt kontakt = new Kontakt(navninn.getText().toString(),telefoninn.getText().toString());
+                    db.leggTilKontakt(kontakt);
+                    Log.d("Legg inn: ", "legger til kontakter");
+                    finish();
+                }
+
+                 */
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

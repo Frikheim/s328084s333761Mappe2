@@ -33,13 +33,10 @@
         <activity android:name=".LeggTilKontaktActivity" android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".MøteActivity" android:screenOrientation="portrait">
+        <activity android:name=".LeggTilMøteActivity" android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".EndreMøteActivity" android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".EndreKontaktActivity" android:screenOrientation="portrait">
 
         </activity>
 

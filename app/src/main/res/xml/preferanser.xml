@@ -7,6 +7,10 @@
         android:selectable="false"
         android:summary=""
         android:title="@string/preferanser" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/varsel_nøkkel"
+        android:title="@string/varsel_tjeneste" />
     <ListPreference
         android:defaultValue="@string/klokkeslett_default"
         android:entries="@array/klokkeslett_entries"
@@ -14,9 +18,12 @@
         android:key="@string/klokkeslett_nøkkel"
         android:summary="@string/klokkeslett_summary"
         android:title="@string/klokkeslett" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/sms_nøkkel"
-        android:title="@string/sms_tjeneste" />
+    <EditTextPreference
+        android:defaultValue="@string/standard_varsel"
+        android:key="@string/varsel_tekst_nøkkel"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/varsel_tekst_tittel"
+        android:summary="@string/varsel_tekst_summary"/>
 
 </PreferenceScreen>

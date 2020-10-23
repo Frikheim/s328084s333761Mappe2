@@ -96,7 +96,7 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
         super.onDestroy();
     }
 
-    public void endre(View v) {
+    public void endre() {
         dato = prefs.getString(getString(R.string.velgDato),"");
         tid = prefs.getString(getString(R.string.velgTidspunkt),"");
         String type = typeinn.getText().toString();
@@ -190,5 +190,24 @@ public class EndreMøteActivity extends AppCompatActivity implements DatePickerF
 
             datoBoks.setText(datoboks);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.endremotemeny, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.endreMøteAction:
+                endre();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

@@ -6,13 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
 
@@ -23,14 +17,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toolbar;
 
 
@@ -111,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
 
         db = new DBHandler(this);
         db.getWritableDatabase();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //bruk shared pref til å velge mellom leggtil og endre kontakt
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(getString(R.string.velgDato),"");
@@ -121,13 +110,22 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.equals(getString(R.string.klokkeslett_nøkkel)))
-                {
-                    startService();
+                if(key.equals(getString(R.string.varsel_nøkkel))) {
+                    if(prefs.getBoolean(getString(R.string.varsel_nøkkel),false)) {
+                        startService();
+                    }
+                    else {
+                        stoppPeriodisk();
+                    }
                 }
-
+                if (key.equals(getString(R.string.klokkeslett_nøkkel))) {
+                    if(prefs.getBoolean(getString(R.string.varsel_nøkkel),false)) {
+                        startService();
+                    }
+                }
             }
         };
+
 
         int MY_PHONE_STATE_PERMISSION;
         int MY_PERMISSIONS_REQUEST_SEND_SMS;
@@ -175,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         int id = navView.getSelectedItemId();
 
         if(id == R.id.navigation_moter) {
-            Intent imote = new Intent(this,MøteActivity.class);
+            Intent imote = new Intent(this, LeggTilMøteActivity.class);
             startActivity(imote);
         }
         else if(id == R.id.navigation_kontakter) {

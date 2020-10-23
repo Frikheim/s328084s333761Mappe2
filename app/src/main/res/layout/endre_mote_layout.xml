@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="430dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="10dp">
 
@@ -22,8 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:tint="#000000"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                app:srcCompat="@android:drawable/ic_menu_info_details"
+                app:tint="#000000" />
 
             <EditText
                 android:id="@+id/typeinn"
@@ -108,17 +108,5 @@
             android:choiceMode="multipleChoice"
             android:listSelector="#666666" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="130dp">
-    <Button
-        android:id="@+id/endreKnapp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="endre"
-        android:text="@string/endreMøte"/>
-    </LinearLayout>
+
 </LinearLayout>

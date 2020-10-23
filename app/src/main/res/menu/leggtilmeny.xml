@@ -2,10 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/leggtil"
+        android:id="@+id/leggTilAction"
         android:icon="@android:drawable/ic_menu_save"
-        android:iconTint="@color/white"
-        android:onClick="leggtil"
+
         android:title=""
         app:showAsAction="always|collapseActionView" />
 

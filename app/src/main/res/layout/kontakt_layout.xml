@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="20dp">
 
 
     <LinearLayout
@@ -46,12 +47,4 @@
             android:layout_height="wrap_content"
             android:hint="@string/innTlf" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/leggtil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="leggtil"
-        android:text="@string/leggTil"
-        android:layout_marginHorizontal="130dp"/>
 </LinearLayout>

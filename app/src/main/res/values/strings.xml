@@ -3,10 +3,10 @@
     <string name="preferanser">Preferanser</string>
     <string name="kontakter">Kontakter</string>
     <string name="møter">Møter</string>
-    <string name="sms_tjeneste">SMS-Tjeneste</string>
+    <string name="varsel_tjeneste">Varsel-Tjeneste</string>
     <string name="klokkeslett">Klokkeslett</string>
     <string name="broadcast">com.example.mappe2.mittbroadcast</string>
-    <string name="sms_nøkkel">smsNøkkel</string>
+    <string name="varsel_nøkkel">varselNøkkel</string>
     <string name="klokkeslett_nøkkel">klokkeslettNøkkel</string>
     <string name="klokkeslett_summary">Velg tidspunkt for møtevarsel</string>
     <string name="klokkeslett_default">8</string>
@@ -29,4 +29,8 @@
     <string name="slettKontakt">Slett kontakt</string>
     <string name="endreKontakt">Endre kontakt</string>
     <string name="deltakere">Deltakere:</string>
+    <string name="standard_varsel">Hei. Minner om møte med meg i dag.</string>
+    <string name="varsel_tekst_nøkkel">varselTekst</string>
+    <string name="varsel_tekst_tittel">Varseltekst</string>
+    <string name="varsel_tekst_summary">Skriv inn varseltekst her</string>
 </resources>
