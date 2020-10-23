@@ -24,7 +24,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         Log.d("TAG", "Måned: " + month);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
+        datePicker.getDatePicker().setMinDate(c.getTime().getTime());
+        return datePicker;
     }
 
     //Metode for å lagre datoen når en bruker velger en dato
