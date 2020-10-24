@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:enabled="true"
-        android:key="example_key"
-        android:selectable="false"
-        android:summary=""
-        android:title="@string/preferanser" />
     <SwitchPreference
         android:defaultValue="false"
         android:key="@string/varsel_nøkkel"

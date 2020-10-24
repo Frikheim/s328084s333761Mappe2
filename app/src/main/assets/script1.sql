@@ -1,1 +1,0 @@
-Dette kan være script 1 ;)

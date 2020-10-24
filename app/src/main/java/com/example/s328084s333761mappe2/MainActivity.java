@@ -29,31 +29,21 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
 
     DBHandler db;
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
-    public Toolbar toolbarvismote;
-    public Toolbar toolbarendremote;
-    public Toolbar toolbarleggtilmote;
-    public Toolbar toolbarendrekontakt;
-    public Toolbar toolbarleggtilkontakt;
-    public ActionBar actionBarvismote;
-    public ActionBar actionBarendremote;
-    public ActionBar actionBarleggtilmote;
-    public ActionBar actionBarendrekontakt;
-    public ActionBar actionleggtilkontakt;
-    public void idEndret(String innhold) {
 
+    public void idEndret(String innhold) {
         Intent i = new Intent(this, VisMoteActivity.class);
         i.putExtra("moteid", innhold);
         startActivity(i);
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         final BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        //Åpner listefragmentet
         Fragment startFragment = new ListeFragment();
         openFragment(startFragment);
         setTitle(getString(R.string.møter));
@@ -61,29 +51,25 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+                //Sjekker hvilket av ikonene på navigasjonsmenyen som er valgt og åpner det
+                //aktuelle fragmentet
                 switch (item.getItemId()){
-
                     case R.id.navigation_moter:
                         Fragment moterFragment = new ListeFragment();
                         openFragment(moterFragment);
                         setTitle(getString(R.string.møter));
                         return true;
-
                     case R.id.navigation_kontakter:
                         Fragment kontakterFragment = new KontaktListeFragment();
                         openFragment(kontakterFragment);
                         setTitle(getString(R.string.kontakter));
                         return true;
-
                     case R.id.navigation_preferanser:
                         Fragment preferanserFragment = new PreferanserFragment();
                         openFragment(preferanserFragment);
                         setTitle(getString(R.string.preferanser));
                         return true;
                 }
-
-
                 return false;
             }
         });
@@ -92,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         db = new DBHandler(this);
         db.getWritableDatabase();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //bruk shared pref til å velge mellom leggtil og endre kontakt
         SharedPreferences.Editor editor = prefs.edit();
+        //Nullstiller valgt dato og tid i SharedPreferences
         editor.putString(getString(R.string.velgDato),"");
         editor.putString(getString(R.string.velgTidspunkt),"");
 
-        //kjører startService når klokkeslettet for varsel og sms endres slik at pendingintentet oppdateres med det nye tiden
+        //Kjører startService når klokkeslettet for varsel og SMS endres slik at pendingintentet oppdateres med den nye tiden
         onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -122,13 +108,17 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         int MY_PERMISSIONS_REQUEST_SEND_SMS;
         MY_PERMISSIONS_REQUEST_SEND_SMS = ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
         MY_PHONE_STATE_PERMISSION = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-        if(!(MY_PERMISSIONS_REQUEST_SEND_SMS == PackageManager.PERMISSION_GRANTED&& MY_PHONE_STATE_PERMISSION ==PackageManager.PERMISSION_GRANTED)){
+        //Hvis ikke rettigheter for å sende SMS er satt på telefonen får bruker spørsmål om å sette disse rettighetene
+        if(!(MY_PERMISSIONS_REQUEST_SEND_SMS == PackageManager.PERMISSION_GRANTED && MY_PHONE_STATE_PERMISSION ==PackageManager.PERMISSION_GRANTED)){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS,Manifest.permission.READ_PHONE_STATE}, 0);
         }
 
+        //Sender signal til broadcastreciever
         startService();
     }
-    void openFragment(Fragment fragment){
+
+    //Metode for å åpne fragmenter
+    void openFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.addToBackStack(null);
