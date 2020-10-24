@@ -114,6 +114,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontaktListe;
     }
 
+    //Metode som legger til et møte i databasen
     public void leggTilMøte (Møte møte) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -126,6 +127,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Metode som legger til en møtedeltakelse i databasen
     public void leggTilMøteDeltakelse (MøteDeltakelse møteDeltakelse) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -135,6 +137,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Metode som legger til en kontakt i databasen
     public void leggTilKontakt(Kontakt kontakt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -144,6 +147,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Metode som finner alle kontakter i databasen og returnerer en liste med kontakt-objekter
     public ArrayList<Kontakt> finnAlleKontakter() {
         ArrayList<Kontakt> kontaktListe = new ArrayList<Kontakt>();
         String selectQuery = "SELECT * FROM " + TABLE_KONTAKTER;
@@ -163,6 +167,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontaktListe;
     }
 
+    //Metode som finner alle møter i databasen og returnerer en liste med møte-objekter
     public ArrayList<Møte> finnAlleMøter() {
         ArrayList<Møte> møteListe = new ArrayList<Møte>();
         String selectQuery = "SELECT * FROM " + TABLE_MOTER;
@@ -184,25 +189,8 @@ public class DBHandler extends SQLiteOpenHelper {
         return møteListe;
     }
 
-    public List<MøteDeltakelse> finnAlleMøteDeltakelser() {
-        List<MøteDeltakelse> møteDeltakelseListe = new ArrayList<MøteDeltakelse>();
-        String selectQuery = "SELECT * FROM " + TABLE_MOTE_DELTAKELSE;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
-        if (cursor.moveToFirst()) {
-            do {
-                MøteDeltakelse møteDeltakelse = new MøteDeltakelse();
-                møteDeltakelse.set_ID(cursor.getLong(0));
-                møteDeltakelse.setMøte_ID(cursor.getLong(1));
-                møteDeltakelse.setDeltaker_ID(cursor.getLong(2));
-                møteDeltakelseListe.add(møteDeltakelse);
-            } while (cursor.moveToNext());
-            cursor.close();
-            db.close();
-        }
-        return møteDeltakelseListe;
-    }
-
+    //Metode som tar inn en møte-ID, finner alle møtedeltakelsene i møtet og returnerer
+    //en liste med møtedeltakelse-objekter
     public List<MøteDeltakelse> finnMøteDeltakelseIMøte(Long møteId) {
         List<MøteDeltakelse> møteDeltakelseListe = new ArrayList<MøteDeltakelse>();
         String selectQuery = "SELECT * FROM " + TABLE_MOTE_DELTAKELSE + " WHERE " + KEY_ID_MOTE_ID + " = " + møteId;
@@ -222,20 +210,14 @@ public class DBHandler extends SQLiteOpenHelper {
         return møteDeltakelseListe;
     }
 
-
-
+    //Metode for å slette en kontakt fra databasen
     public void slettKontakt(Long inn_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_KONTAKTER, KEY_ID_KONTAKT + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }
 
-    public void slettKontakt(String navn_inn) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_KONTAKTER, KEY_NAME + " =? ", new String[]{navn_inn});
-        db.close();
-    }
-
+    //Metode for å slette et møte fra databasen
     public void slettMøte(Long inn_id) {
         List<MøteDeltakelse> deltakere = finnMøteDeltakelseIMøte(inn_id);
         for (MøteDeltakelse deltaker: deltakere) {
@@ -246,12 +228,14 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Metode for å slette en møtedeltakelse fra databasen
     public void slettMøteDeltakelse(Long inn_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MOTE_DELTAKELSE, KEY_ID_MOTEDELTAKELSE + " =? ", new String[]{Long.toString(inn_id)});
         db.close();
     }
 
+    //Metode som tar inn et endret kontakt-objekt og oppdaterer kontakt-objektet i databasen
     public int oppdaterKontakt(Kontakt kontakt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values= new ContentValues();
@@ -263,6 +247,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return endret;
     }
 
+    //Metode som tar inn et endret møte-objekt og oppdaterer møte-objektet i databasen
     public int oppdaterMøte(Møte møte) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values= new ContentValues();
@@ -276,47 +261,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return endret;
     }
 
-    public int oppdaterMøteDeltakelse(MøteDeltakelse møteDeltakelse) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values= new ContentValues();
-        values.put(KEY_ID_MOTE_ID, møteDeltakelse.getMøte_ID());
-        values.put(KEY_PH_NO, møteDeltakelse.getDeltaker_ID());
-        int endret = db.update(TABLE_MOTE_DELTAKELSE, values, KEY_ID_MOTEDELTAKELSE + "= ?",
-                new String[]{String.valueOf(møteDeltakelse.get_ID())});
-        db.close();
-        return endret;
-    }
-
-    public int finnAntallKontakter() {
-        String sql= "SELECT * FROM " + TABLE_KONTAKTER;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor= db.rawQuery(sql, null);
-        int antall = cursor.getCount();
-        cursor.close();
-        db.close();
-        return antall;
-    }
-
-    public int finnAntallMøter() {
-        String sql= "SELECT * FROM " + TABLE_MOTER;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor= db.rawQuery(sql, null);
-        int antall = cursor.getCount();
-        cursor.close();
-        db.close();
-        return antall;
-    }
-
-    public int finnAntallMøteDeltakelse() {
-        String sql= "SELECT * FROM " + TABLE_MOTE_DELTAKELSE;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor= db.rawQuery(sql, null);
-        int antall = cursor.getCount();
-        cursor.close();
-        db.close();
-        return antall;
-    }
-
+    //Metode som tar inn en ID og finner et evt kontakt-objekt i databasen som har denne ID-en
     public Kontakt finnKontakt(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_KONTAKTER, new String[]{KEY_ID_KONTAKT, KEY_NAME, KEY_PH_NO},
@@ -330,6 +275,8 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontakt;
     }
 
+    //Metode som tar inn et navn og finner et evt kontakt-objekt i databasen som har dette navnet
+    //(dette medfører at en bruker ikke kan legge inn to kontakter med identisk navn)
     public Kontakt finnKontakt(String navn) {
         Log.d("TAG", "Navn:" + navn + ".");
         SQLiteDatabase db = this.getReadableDatabase();
@@ -344,7 +291,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return kontakt;
     }
 
-
+    //Metode som tar inn en ID og finner et evt møte-objekt i databasen som har denne ID-en
     public Møte finnMøte(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor= db.query(TABLE_MOTER, new String[]{KEY_ID_MOTE, KEY_TYPE, KEY_STED, KEY_DATO, KEY_TID},
@@ -358,6 +305,8 @@ public class DBHandler extends SQLiteOpenHelper {
         return møte;
     }
 
+    //Metode som tar inn type, sted, dato og tidspunkt og finner et evt møte-objekt
+    //i databasen som har disse verdiene
     public Møte finnMøte(String type, String sted, String dato, String tidspunkt) {
         List<Møte> møter = finnAlleMøter();
         Møte møte = null;
@@ -370,6 +319,8 @@ public class DBHandler extends SQLiteOpenHelper {
         return møte;
     }
 
+    //Metode som tar inn en dato, finner alle møter som finner sted denne datoen og
+    //returnerer en liste med møte-objekter
     public ArrayList<Møte> finnAlleMøterIDag(String dato) {
         ArrayList<Møte> møteListe = new ArrayList<Møte>();
         ArrayList<Møte> alleMøter = sorterMøter(finnAlleMøter());
@@ -381,41 +332,32 @@ public class DBHandler extends SQLiteOpenHelper {
         return møteListe;
     }
 
-    public MøteDeltakelse finnMøteDeltakelse(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor= db.query(TABLE_MOTE_DELTAKELSE, new String[]{KEY_ID_MOTEDELTAKELSE, KEY_ID_MOTE_ID, KEY_ID_DELTAKER},
-                KEY_ID_MOTEDELTAKELSE + "=?", new String[]{String.valueOf(id)},
-                null, null, null, null);
-        if(cursor!= null) cursor.moveToFirst();
-        MøteDeltakelse møteDeltakelse= new MøteDeltakelse(cursor.getLong(0), cursor.getLong(1),
-                cursor.getLong(2));
-        cursor.close();
-        db.close();
-        return møteDeltakelse;
-    }
-
+    //Metode som tar inn en liste med møte-objekter og sorterer disse på dato og tid
     public ArrayList<Møte> sorterMøter(ArrayList<Møte> møter) {
-        ArrayList<Møte> sortertListe = new ArrayList();
-        sortertListe.add(møter.get(0));
-        boolean leter;
+        ArrayList<Møte> sortertListe = new ArrayList(); //oppretter en ny liste med møte-objekter
+        sortertListe.add(møter.get(0)); //legger til det første møtet i innparameter-listen i det sorterte arrayet
+        boolean leter; //boolean som sier om vi leter etter riktig plass i sortertListe eller om vi har funnet riktig plass
         for (int i = 1; i < møter.size(); i++) {
             leter = true;
             String dato = møter.get(i).getDato();
+            //Splitter opp datoen for å lage egne int-variabler for dag, måned og år som vi kan sammenligne
             String[] splittet = dato.split("\\.");
             int dag = Integer.parseInt(splittet[0]);
             int måned = Integer.parseInt(splittet[1]);
             int år = Integer.parseInt(splittet[2]);
-            int plassering = 0;
+            int plassering = 0; //plasseringen til det originale møtet i den sorterte listen
             while(leter) {
                 String datoSortert = sortertListe.get(plassering).getDato();
+                //Splitter opp datoen for å lage egne int-variabler for dag, måned og år som vi kan sammenligne
                 String[] splittetSortert = datoSortert.split("\\.");
                 int dagSortert = Integer.parseInt(splittetSortert[0]);
                 int månedSortert = Integer.parseInt(splittetSortert[1]);
                 int årSortert = Integer.parseInt(splittetSortert[2]);
-                if(årSortert == år) {
-                    if(månedSortert == måned) {
-                        if(dagSortert == dag) {
+                if(årSortert == år) { //Hvis begge møtene er i samme år må vi se videre på måneden
+                    if(månedSortert == måned) { //Hvis begge møtene er i samme måned må vi se videre må dagen
+                        if(dagSortert == dag) { //Hvis begge møtene er på samme dag må vi se videre på tiden
                             String tid = møter.get(i).getTidspunkt();
+                            //Splitter opp tiden for å lage egne int-variabler for time og minutter som vi kan sammenligne
                             String tidSortert = sortertListe.get(plassering).getTidspunkt();
                             String[] splittetTid = tid.split(":");
                             String[] splittetTidSortert = tidSortert.split(":");
@@ -424,24 +366,37 @@ public class DBHandler extends SQLiteOpenHelper {
                             int minutt = Integer.parseInt(splittetTid[1]);
                             int minuttSortert = Integer.parseInt(splittetTidSortert[1]);
 
-                            if(timeSortert == time) {
+                            if(timeSortert == time) { //Hvis begge møtene finner sted i samme time må vi se videre på minuttene
                                 if(minuttSortert == minutt) {
+                                    //Hvis begge møtene finner sted på nøyaktig samtidig legger vi til originalmøtet bakerst i den sorterte listen
                                     sortertListe.add(møter.get(i));
                                     leter = false;
                                 }
                                 else if(minuttSortert < minutt) {
+                                    //Hvis originalmøtet sin minutt-verdi er høyere enn møtet vi sammenligner med i den sorterte listen
+                                    //så finner originalmøtet sted etter møtet vi sammenligner med, og originalmøtet skal derfor legges
+                                    // inn bak møtet i den sorterte listen. Øker derfor plassering-variabelen med en
                                     plassering++;
                                     if(plassering == sortertListe.size()) {
+                                        //Hvis plassering er like stor som antall elementer i den sorterte listen
+                                        //betyr det at vi er på slutten av den sorterte listen og det er ikke flere
+                                        //møter å sammenligne med. Legger derfor originalmøtet bakerst i den sorterte listen
                                         sortertListe.add(møter.get(i));
                                         leter = false;
                                     }
                                 }
                                 else {
+                                    //Originalmøtet sin minutt-verdi er lavere enn møtet vi sammenligner med i den sorterte listen
+                                    //som betyr at originalmøtet finner sted før møtet vi sammenligner med. Originalmøtet legges derfor
+                                    //inn på plassen foran møtet vi sammenligner med
                                     sortertListe.add(plassering,møter.get(i));
                                     leter = false;
                                 }
                             }
                             else if(timeSortert < time) {
+                                //Hvis originalmøtet sin time-verdi er høyere enn møtet vi sammenligner med i den sorterte listen
+                                //så finner originalmøtet sted etter møtet vi sammenligner med, og originalmøtet skal derfor legges
+                                // inn bak møtet i den sorterte listen. Øker derfor plassering-variabelen med en
                                 plassering++;
                                 if(plassering == sortertListe.size()) {
                                     sortertListe.add(møter.get(i));
@@ -449,11 +404,17 @@ public class DBHandler extends SQLiteOpenHelper {
                                 }
                             }
                             else {
+                                //Originalmøtet sin time-verdi er lavere enn møtet vi sammenligner med i den sorterte listen
+                                //som betyr at originalmøtet finner sted før møtet vi sammenligner med. Originalmøtet legges derfor
+                                //inn på plassen foran møtet vi sammenligner med
                                 sortertListe.add(plassering,møter.get(i));
                                 leter = false;
                             }
                         }
                         else if(dagSortert < dag) {
+                            //Hvis originalmøtet sin dag-verdi er høyere enn møtet vi sammenligner med i den sorterte listen
+                            //så finner originalmøtet sted etter møtet vi sammenligner med, og originalmøtet skal derfor legges
+                            // inn bak møtet i den sorterte listen. Øker derfor plassering-variabelen med en
                             plassering++;
                             if(plassering == sortertListe.size()) {
                                 sortertListe.add(møter.get(i));
@@ -461,11 +422,17 @@ public class DBHandler extends SQLiteOpenHelper {
                             }
                         }
                         else {
+                            //Originalmøtet sin dag-verdi er lavere enn møtet vi sammenligner med i den sorterte listen
+                            //som betyr at originalmøtet finner sted før møtet vi sammenligner med. Originalmøtet legges derfor
+                            //inn på plassen foran møtet vi sammenligner med
                             sortertListe.add(plassering,møter.get(i));
                             leter = false;
                         }
                     }
                     else if(månedSortert < måned) {
+                        //Hvis originalmøtet sin måned-verdi er høyere enn møtet vi sammenligner med i den sorterte listen
+                        //så finner originalmøtet sted etter møtet vi sammenligner med, og originalmøtet skal derfor legges
+                        // inn bak møtet i den sorterte listen. Øker derfor plassering-variabelen med en
                         plassering++;
                         if(plassering == sortertListe.size()) {
                             sortertListe.add(møter.get(i));
@@ -473,11 +440,17 @@ public class DBHandler extends SQLiteOpenHelper {
                         }
                     }
                     else {
+                        //Originalmøtet sin måned-verdi er lavere enn møtet vi sammenligner med i den sorterte listen
+                        //som betyr at originalmøtet finner sted før møtet vi sammenligner med. Originalmøtet legges derfor
+                        //inn på plassen foran møtet vi sammenligner med
                         sortertListe.add(plassering,møter.get(i));
                         leter = false;
                     }
                 }
                 else if(årSortert < år) {
+                    //Hvis originalmøtet sin år-verdi er høyere enn møtet vi sammenligner med i den sorterte listen
+                    //så finner originalmøtet sted etter møtet vi sammenligner med, og originalmøtet skal derfor legges
+                    // inn bak møtet i den sorterte listen. Øker derfor plassering-variabelen med en
                     plassering++;
                     if(plassering == sortertListe.size()) {
                         sortertListe.add(møter.get(i));
@@ -485,6 +458,9 @@ public class DBHandler extends SQLiteOpenHelper {
                     }
                 }
                 else {
+                    //Originalmøtet sin år-verdi er lavere enn møtet vi sammenligner med i den sorterte listen
+                    //som betyr at originalmøtet finner sted før møtet vi sammenligner med. Originalmøtet legges derfor
+                    //inn på plassen foran møtet vi sammenligner med
                     sortertListe.add(plassering,møter.get(i));
                     leter = false;
                 }

@@ -15,18 +15,15 @@ public class KontaktAdapter extends ArrayAdapter<Kontakt> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        Kontakt kontakt = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
+    public View getView(int posisjon, View convertView, ViewGroup parent) {
+        //Får tak i kontakt-objektet for denne posisjonen
+        Kontakt kontakt = getItem(posisjon);
+        //Sjekker om en eksisterende view blir brukt, hvis ikke inflater vi viewet
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.kontakt_view, parent, false);
         }
-        // Lookup view for data population
-        TextView navn = (TextView) convertView.findViewById(R.id.navnView);
-        // Populate the data into the template view using the data object
+        TextView navn = convertView.findViewById(R.id.navnView);
         navn.setText(kontakt.getNavn());
-        // Return the completed view to render on screen
         return convertView;
     }
 }

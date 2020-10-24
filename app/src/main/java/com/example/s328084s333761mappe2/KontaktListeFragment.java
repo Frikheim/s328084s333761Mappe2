@@ -15,11 +15,10 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 public class KontaktListeFragment extends Fragment {
-    private static ArrayAdapter<String> adapter;
     private static KontaktEndret listener;
 
     public interface KontaktEndret {
-        public void idKontaktEndret(String innhold);
+        void idKontaktEndret(String innhold);
     }
 
     public View v;
@@ -29,20 +28,24 @@ public class KontaktListeFragment extends Fragment {
         Activity activity;
         activity= (Activity) context;
         try {
-            listener= (KontaktEndret) activity;
-            System.out.println("satt lytter");
+            listener = (KontaktEndret) activity;
         }
         catch(ClassCastException e) {
-            throw new ClassCastException(activity.toString()+ "må implementere UrlEndret");
+            throw new ClassCastException(activity.toString()+ "må implementere KontaktEndret");
         }
     }
+    
     public KontaktListeFragment() {}
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    
+    @Override 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.liste_layout, container, false);
-        ListView lv = (ListView) v.findViewById(R.id.liste);
+        ListView lv = v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
+        //Finner alle kontaktene i databasen
         ArrayList<Kontakt> kontakter = db.finnAlleKontakter();
+        //Sorterer kontaktene alfabetisk
         final ArrayList<Kontakt> list = sortertKontaktliste(kontakter);
         final KontaktAdapter adapter = new KontaktAdapter(getContext(),list);
         lv.setAdapter(adapter);
@@ -55,15 +58,14 @@ public class KontaktListeFragment extends Fragment {
         return v;
     }
 
+    //Oppdaterer kontaktlistefragmenetet
     public void oppdater() {
-        ListView lv = (ListView) v.findViewById(R.id.liste);
+        ListView lv = v.findViewById(R.id.liste);
         DBHandler db = new DBHandler(getActivity());
         db.getWritableDatabase();
         ArrayList<Kontakt> kontakter = db.finnAlleKontakter();
         final ArrayList<Kontakt> list = sortertKontaktliste(kontakter);
-        //final ArrayList<String> list = db.kontaktListe();
         final KontaktAdapter adapter = new KontaktAdapter(getContext(),list);
-        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -80,21 +82,28 @@ public class KontaktListeFragment extends Fragment {
     }
 
     public ArrayList<Kontakt> sortertKontaktliste(ArrayList<Kontakt> kontakter) {
-        ArrayList<Kontakt> sortertListe = new ArrayList<>();
-        sortertListe.add(kontakter.get(0));
+        ArrayList<Kontakt> sortertListe = new ArrayList<>(); //Oppretter en ny sortert liste med kontakt-objekter
+        sortertListe.add(kontakter.get(0)); //Legger til den første kontakten fra innparameter-listen i den sorterte listen
 
         for(int i = 1; i < kontakter.size(); i++) {
             for(int j = 0; j < sortertListe.size(); j++) {
                 if(sortertListe.get(j).getNavn().equals(kontakter.get(i).getNavn())) {
+                    //Dersom navnene er identiske legges det originale kontakt-objektet bakerst i den sorterte listen
                     sortertListe.add(kontakter.get(i));
                     break;
                 }
                 else if(sortertListe.get(j).getNavn().compareTo(kontakter.get(i).getNavn()) > 0) {
+                    //Dersom testen over returnerer 1 vil det si at originalkontakten skal sorteres før kontakten vi sammenligner
+                    //med alfabetisk, og legger derfor inn originalkontakten før kontakten den sammenlignes med
                     sortertListe.add(j,kontakter.get(i));
                     break;
                 }
                 else {
+                    //Dersom testen i else if-en returnerer -1 vil det si at originalkontakten skal sorteres etter kontakten vi sammenligner
+                    //med alfabetisk, og legger derfor inn originalkontakten sist i den sorterte listen
                     if((sortertListe.size() - j) == 1) {
+                        //Dersom sjekker over er sann betyr det at vi er på det siste objektet i den sorterte listen,
+                        //og legger dermed originalkontakten sist i den sorterte listen
                         sortertListe.add(kontakter.get(i));
                         break;
                     }

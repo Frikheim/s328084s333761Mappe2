@@ -20,6 +20,7 @@
     <string name="visAlle">Vis alle</string>
     <string name="oppdater">Oppdater</string>
     <string name="leggTilMøte">Nytt møte</string>
+    <string name="leggTilKontakt">Ny kontakt</string>
     <string name="velgDato">Velg dato</string>
     <string name="velgTidspunkt">Velg tidspunkt</string>
     <string name="møteIkkeFyltUt">Du må fylle inn alle feltene</string>

@@ -58,15 +58,6 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         openFragment(startFragment);
         setTitle(getString(R.string.møter));
 
-        /*toolbarvismote = findViewById(R.id.hovedToolbar);
-        toolbarvismote.inflateMenu(R.menu.hovedmeny);
-        setSupportActionBar(toolbarvismote);
-        actionBarvismote = getSupportActionBar();
-        actionBarvismote.
-
-         */
-
-
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

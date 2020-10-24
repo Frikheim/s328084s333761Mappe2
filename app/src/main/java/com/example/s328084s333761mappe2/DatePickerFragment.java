@@ -25,6 +25,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
+        //Setter minimumsdatoen i DatePickeren til dagens dato, slik at bruker ikke kan velge en dato som allerede har vært
         datePicker.getDatePicker().setMinDate(c.getTime().getTime());
         return datePicker;
     }

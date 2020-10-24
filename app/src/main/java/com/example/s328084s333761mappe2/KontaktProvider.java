@@ -5,9 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -18,14 +16,12 @@ public class KontaktProvider extends ContentProvider {
     private static final int MKONTAKT = 2;
     DBHandler db;
 
-    public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER + "/kontakt");
     private static final UriMatcher uriMatcher;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER, "kontakt", MKONTAKT);
         uriMatcher.addURI(PROVIDER, "kontakt/#", KONTAKT);
-
     }
 
 
@@ -38,8 +34,6 @@ public class KontaktProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Cursor cur= null;
-
         if(uriMatcher.match(uri) == KONTAKT) {
             return db.contentProviderHentEn(uri,projection,selectionArgs,sortOrder);
         }

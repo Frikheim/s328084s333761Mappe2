@@ -1,7 +1,5 @@
 package com.example.s328084s333761mappe2;
 
-import androidx.annotation.NonNull;
-
 public class Kontakt {
     public Long _ID;
     public String Navn;
