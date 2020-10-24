@@ -1,15 +1,11 @@
 package com.example.s328084s333761mappe2;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.Manifest;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -20,9 +16,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
-
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements ListeFragment.MøteEndret, KontaktListeFragment.KontaktEndret {
@@ -125,12 +118,14 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
         fragmentTransaction.commit();
     }
 
+    //Sender signal til broadcastreciever
     public void startService() {
         Intent intent = new Intent();
         intent.setAction(getString(R.string.broadcast));
         sendBroadcast(intent);
     }
 
+    //Metode for å stoppe periodisk service og stoppe varsler
     public void stoppPeriodisk() {
         Intent i = new Intent(this, MinService.class);
         PendingIntent pintent = PendingIntent.getService(this, 0, i, 0);
@@ -142,17 +137,19 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
 
     @Override
     public void idKontaktEndret(String innhold) {
-
         Intent i = new Intent(this, VisKontaktActivity.class);
         i.putExtra("kontaktnavn", innhold);
         startActivity(i);
-
     }
 
+    //Metode som trigger når bruker trykker på pluss-knappen øverst i enten listen over møter eller
+    //listen over kontakter
     public void leggTil(View v) {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         int id = navView.getSelectedItemId();
 
+        //Må sjekke hvilket fragment brukeren befinner seg på, og åpne LeggTilMøte eller LeggTilKontakt
+        //basert på dette
         if(id == R.id.navigation_moter) {
             Intent imote = new Intent(this, LeggTilMøteActivity.class);
             startActivity(imote);
@@ -162,6 +159,5 @@ public class MainActivity extends AppCompatActivity implements ListeFragment.Mø
             startActivity(ikontakt);
         }
     }
-
 
 }

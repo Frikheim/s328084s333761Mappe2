@@ -1,15 +1,8 @@
 package com.example.s328084s333761mappe2;
 
-import android.widget.CalendarView;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-
 import androidx.annotation.NonNull;
 
-import java.util.Calendar;
-
 public class Møte {
-
     public Long _ID;
     public String Type;
     public String Sted;

@@ -5,17 +5,7 @@ public class MøteDeltakelse {
     public Long Møte_ID;
     public Long Deltaker_ID;
 
-    public MøteDeltakelse(Long Møte_ID) {
-        this.Møte_ID = Møte_ID;
-    }
-
     public MøteDeltakelse(Long Møte_ID, Long Deltaker_ID) {
-        this.Møte_ID = Møte_ID;
-        this.Deltaker_ID = Deltaker_ID;
-    }
-
-    public MøteDeltakelse(Long _ID, Long Møte_ID, Long Deltaker_ID) {
-        this._ID = _ID;
         this.Møte_ID = Møte_ID;
         this.Deltaker_ID = Deltaker_ID;
     }

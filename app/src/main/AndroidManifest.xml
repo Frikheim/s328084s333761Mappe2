@@ -53,7 +53,6 @@
             android:exported="true"
             android:readPermission="com.example.contentproviderkontakt.permission"
             android:writePermission="com.example.contentproviderkontakt.permission">
-
         </provider>
 
     </application>
